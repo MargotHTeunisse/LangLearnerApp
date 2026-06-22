@@ -1,0 +1,4 @@
+cat, kissa
+dog, koira
+bird, lintu
+bear, karhu
