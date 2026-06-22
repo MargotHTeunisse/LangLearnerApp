@@ -1,3 +1,4 @@
+import nl.margothteunisse.langlearner.Card;
 import nl.margothteunisse.langlearner.Deck;
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
@@ -9,5 +10,12 @@ public class DeckTest {
         Deck deck = new Deck("empty.txt");
 
         Assertions.assertThrows(DeckEmptyException.class, deck::draw);
+    }
+
+    @Test
+    public void testCanDrawFromNonEmptyDeck() {
+        Deck deck = new Deck("test.txt");
+
+        Assertions.assertDoesNotThrow(deck::draw);
     }
 }
