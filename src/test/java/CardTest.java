@@ -1,13 +1,17 @@
 import nl.margothteunisse.langlearner.Card;
+import nl.margothteunisse.langlearner.Deck;
+import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class CardTest {
     @ParameterizedTest
-    @ValueSource(strings = {"cat", "dog", "bird", "bear"})
-    public void testCardFrontIsRead(String front) {
-        Card card = new Card(front, "");
+    @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
+    public void testCardFrontIsRead(String file, String front) throws DeckEmptyException {
+        Deck deck = new Deck(file);
+        Card card = deck.draw();
 
         String readText = card.read();
 
@@ -15,9 +19,10 @@ public class CardTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"kissa", "koira", "lintu", "karhu"})
-    public void testCheckReturnsTrueIfInputMatchesBack(String back) {
-        Card card = new Card("", back);
+    @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
+    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws DeckEmptyException {
+        Deck deck = new Deck(file);
+        Card card = deck.draw();
 
         boolean answerIsCorrect = card.check(back);
 
@@ -26,8 +31,9 @@ public class CardTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "cat", "koira"})
-    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) {
-        Card card = new Card("cat", "kissa");
+    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws DeckEmptyException {
+        Deck deck = new Deck("cat.txt");
+        Card card = deck.draw();
 
         boolean answerIsCorrect = card.check(input);
 

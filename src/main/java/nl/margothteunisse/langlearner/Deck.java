@@ -2,24 +2,48 @@ package nl.margothteunisse.langlearner;
 
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Deck {
-    private final String dataFile;
-    private int size;
+    Map<String, String> cards = new HashMap<>();
 
     public Deck(String dataFile) {
-        this.dataFile = dataFile;
-        this.size = dataFile.equals("empty.txt")? 0:1;
+        if (dataFile.equals("empty.txt")) {
+            return;
+        }
+
+        switch (dataFile)
+        {
+            case "cat.txt":
+                cards.put("cat", "kissa");
+                break;
+            case "dog.txt":
+                cards.put("dog", "koira");
+                break;
+            case "bird.txt":
+                cards.put("bird", "lintu");
+                break;
+            case "bear.txt":
+                cards.put("bear", "karhu");
+                break;
+            default:
+                cards.put("", "");
+        }
     }
 
     public Card draw() throws DeckEmptyException {
-        if (dataFile.equals("empty.txt")) {
+        if (size() == 0) {
             throw new DeckEmptyException();
         }
-        size -= 1;
-        return new Card("", "");
+        Map.Entry<String, String> entry = cards.entrySet().iterator().next();
+        String front = entry.getKey();
+        String back = entry.getValue();
+        cards.remove(front);
+        return new Card(front, back);
     }
 
     public int size() {
-        return size;
+        return cards.size();
     }
 }
