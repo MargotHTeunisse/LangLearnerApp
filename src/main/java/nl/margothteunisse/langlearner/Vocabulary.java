@@ -1,7 +1,5 @@
 package nl.margothteunisse.langlearner;
 
-import java.util.Map;
-
 class Vocabulary {
     private final String[][] words;
 

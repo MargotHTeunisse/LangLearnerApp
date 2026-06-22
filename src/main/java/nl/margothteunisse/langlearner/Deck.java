@@ -2,15 +2,13 @@ package nl.margothteunisse.langlearner;
 
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Deck {
     private final Vocabulary vocab;
-    private int wordIndex;
+    private int size;
 
     public Deck(String dataFile) {
         vocab = new Vocabulary(dataFile);
+        size = vocab.wordCount();
     }
     
     
@@ -18,13 +16,13 @@ public class Deck {
         if (size() == 0) {
             throw new DeckEmptyException();
         }
-        Card card = vocab.getCard(wordIndex);
+        Card card = vocab.getCard(0);
 
-        wordIndex++;
+        size--;
         return card;
     }
 
     public int size() {
-        return vocab.wordCount() - wordIndex;
+        return size;
     }
 }
