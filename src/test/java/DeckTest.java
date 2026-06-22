@@ -4,23 +4,25 @@ import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 public class DeckTest {
     @Test
-    public void testCannotDrawFromEmptyDeck() {
+    public void testCannotDrawFromEmptyDeck() throws IOException {
         Deck deck = new Deck("empty.txt");
 
         Assertions.assertThrows(DeckEmptyException.class, deck::draw);
     }
 
     @Test
-    public void testCanDrawFromNonEmptyDeck() {
-        Deck deck = new Deck("test.txt");
+    public void testCanDrawFromNonEmptyDeck() throws IOException {
+        Deck deck = new Deck("cat.txt");
 
         Assertions.assertDoesNotThrow(deck::draw);
     }
 
     @Test
-    public void testEmptyDeckContainsNoCards() {
+    public void testEmptyDeckContainsNoCards() throws IOException {
         Deck deck = new Deck("empty.txt");
 
         int deckSize = deck.size();
@@ -29,8 +31,8 @@ public class DeckTest {
     }
 
     @Test
-    public void testNonEmptyDeckContainsCards() {
-        Deck deck = new Deck("test.txt");
+    public void testNonEmptyDeckContainsCards() throws IOException {
+        Deck deck = new Deck("cat.txt");
 
         int deckSize = deck.size();
 
@@ -38,8 +40,8 @@ public class DeckTest {
     }
 
     @Test
-    public void testDeckSizeDecreasesByOneAfterDrawing() throws DeckEmptyException {
-        Deck deck = new Deck("test.txt");
+    public void testDeckSizeDecreasesByOneAfterDrawing() throws DeckEmptyException, IOException {
+        Deck deck = new Deck("cat.txt");
         int initialDeckSize = deck.size();
 
         Card card = deck.draw();

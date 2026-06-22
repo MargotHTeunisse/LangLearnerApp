@@ -6,10 +6,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.IOException;
+
 public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
-    public void testCardFrontIsRead(String file, String front) throws DeckEmptyException {
+    public void testCardFrontIsRead(String file, String front) throws DeckEmptyException, IOException {
         Deck deck = new Deck(file);
         Card card = deck.draw();
 
@@ -20,7 +22,7 @@ public class CardTest {
 
     @ParameterizedTest
     @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
-    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws DeckEmptyException {
+    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws DeckEmptyException, IOException {
         Deck deck = new Deck(file);
         Card card = deck.draw();
 
@@ -31,7 +33,7 @@ public class CardTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"", "cat", "koira"})
-    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws DeckEmptyException {
+    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws DeckEmptyException, IOException {
         Deck deck = new Deck("cat.txt");
         Card card = deck.draw();
 
