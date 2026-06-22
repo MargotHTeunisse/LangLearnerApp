@@ -18,7 +18,7 @@ public class Deck {
         if (size() == 0) {
             throw new DeckEmptyException();
         }
-        Card card = vocab.getCard(0);
+        Card card = vocab.getCard(size-1);
 
         size--;
         return card;

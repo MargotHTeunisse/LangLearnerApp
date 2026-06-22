@@ -21,7 +21,7 @@ class Vocabulary {
         }
     }
 
-    static List<String> readFile(String filename) throws IOException {
+    private static List<String> readFile(String filename) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classloader.getResourceAsStream(filename);
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);

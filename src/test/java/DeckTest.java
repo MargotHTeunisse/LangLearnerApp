@@ -48,4 +48,14 @@ public class DeckTest {
 
         Assertions.assertEquals(initialDeckSize-1, deck.size());
     }
+
+    @Test
+    public void testFrontOfSecondCardIsDifferentFromFirst() throws IOException, DeckEmptyException {
+        Deck deck = new Deck("wordlist.txt");
+        Card firstCard = deck.draw();
+
+        Card secondCard = deck.draw();
+
+        Assertions.assertNotEquals(firstCard.read(), secondCard.read());
+    }
 }
