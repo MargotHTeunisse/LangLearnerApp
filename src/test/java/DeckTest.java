@@ -18,4 +18,32 @@ public class DeckTest {
 
         Assertions.assertDoesNotThrow(deck::draw);
     }
+
+    @Test
+    public void testEmptyDeckContainsNoCards() {
+        Deck deck = new Deck("empty.txt");
+
+        int deckSize = deck.size();
+
+        Assertions.assertEquals(0, deckSize);
+    }
+
+    @Test
+    public void testNonEmptyDeckContainsCards() {
+        Deck deck = new Deck("test.txt");
+
+        int deckSize = deck.size();
+
+        Assertions.assertNotEquals(0, deckSize);
+    }
+
+    @Test
+    public void testDeckSizeDecreasesByOneAfterDrawing() throws DeckEmptyException {
+        Deck deck = new Deck("test.txt");
+        int initialDeckSize = deck.size();
+
+        Card card = deck.draw();
+
+        Assertions.assertEquals(initialDeckSize-1, deck.size());
+    }
 }
