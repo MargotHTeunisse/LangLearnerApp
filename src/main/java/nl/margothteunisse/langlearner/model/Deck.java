@@ -1,15 +1,15 @@
-package nl.margothteunisse.langlearner;
+package nl.margothteunisse.langlearner.model;
 
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
+@Component
 public class Deck {
-    private final Vocabulary vocab;
+    private final TextVocabulary vocab;
     private int size;
 
-    public Deck(String dataFile) throws IOException {
-        vocab = new Vocabulary(dataFile);
+    Deck(TextVocabulary vocab) {
+        this.vocab = vocab;
         size = vocab.wordCount();
     }
     
@@ -18,7 +18,7 @@ public class Deck {
         if (size() == 0) {
             throw new DeckEmptyException();
         }
-        Card card = vocab.getCard(size-1);
+        Card card = vocab.getCardByID(size-1);
 
         size--;
         return card;

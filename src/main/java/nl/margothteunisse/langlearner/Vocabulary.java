@@ -10,10 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
-class Vocabulary {
+public class Vocabulary {
     private final String[][] words;
 
-    Vocabulary(String filename) throws IOException {
+    public Vocabulary(String filename) throws IOException {
         List<String> lines = readFile(filename);
         words = new String[lines.size()][2];
         int wordIndex = 0;
@@ -36,6 +36,10 @@ class Vocabulary {
 
     int wordCount() {
         return words.length;
+    }
+
+    public Deck createDeck() {
+        return new Deck(this);
     }
 
     Card getCard(int wordIndex) {

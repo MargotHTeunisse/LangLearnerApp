@@ -2,6 +2,7 @@ package nl.margothteunisse.langlearner.ui;
 
 import nl.margothteunisse.langlearner.Card;
 import nl.margothteunisse.langlearner.Deck;
+import nl.margothteunisse.langlearner.Vocabulary;
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class LangLearnerApp {
 
         Deck deck;
         try {
-            deck = new Deck("wordlist.txt");
+            deck = new Vocabulary("wordlist.txt").createDeck();
         }
         catch (IOException e) {
             System.out.println("Could not find file '{}'.");
