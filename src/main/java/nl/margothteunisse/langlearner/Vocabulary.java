@@ -1,5 +1,7 @@
 package nl.margothteunisse.langlearner;
 
+import org.springframework.stereotype.Component;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@Component
 class Vocabulary {
     private final String[][] words;
 
@@ -26,7 +29,9 @@ class Vocabulary {
         InputStream inputStream = classloader.getResourceAsStream(filename);
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
-        return reader.readAllLines();
+
+        List<String> lines = reader.lines().toList();
+        return lines;
     }
 
     int wordCount() {

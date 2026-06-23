@@ -7,8 +7,21 @@ import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+@ComponentScan(basePackages="nl.margothteunisse.langlearner")
 public class LangLearnerApp {
     public static void main(String[] args) throws DeckEmptyException {
+        ApplicationContext apc = SpringApplication.run(LangLearnerApp.class);
+        for (String s: apc.getBeanDefinitionNames()) {
+            System.out.println(s);
+        }
+
         Deck deck;
         try {
             deck = new Deck("wordlist.txt");
@@ -30,5 +43,11 @@ public class LangLearnerApp {
                 System.out.println("That is incorrect. The correct answer is " + card.read() + ".");
             }
         }
+    }
+
+
+    @Bean
+    String getVocabularyName() {
+        return "wordlist.txt";
     }
 }
