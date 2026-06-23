@@ -1,4 +1,4 @@
-package nl.margothteunisse.langlearner;
+package nl.margothteunisse.langlearner.model;
 
 public class Card {
     private final String front;

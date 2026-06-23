@@ -1,8 +1,8 @@
 package nl.margothteunisse.langlearner.ui;
 
-import nl.margothteunisse.langlearner.Card;
-import nl.margothteunisse.langlearner.Deck;
-import nl.margothteunisse.langlearner.Vocabulary;
+import nl.margothteunisse.langlearner.model.Card;
+import nl.margothteunisse.langlearner.model.Deck;
+import nl.margothteunisse.langlearner.model.TextVocabulary;
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages="nl.margothteunisse.langlearner")
 public class LangLearnerApp {
+
     public static void main(String[] args) throws DeckEmptyException {
         ApplicationContext apc = SpringApplication.run(LangLearnerApp.class);
         for (String s: apc.getBeanDefinitionNames()) {
@@ -25,7 +26,7 @@ public class LangLearnerApp {
 
         Deck deck;
         try {
-            deck = new Vocabulary("wordlist.txt").createDeck();
+            deck = new TextVocabulary("wordlist.txt").createDeck();
         }
         catch (IOException e) {
             System.out.println("Could not find file '{}'.");

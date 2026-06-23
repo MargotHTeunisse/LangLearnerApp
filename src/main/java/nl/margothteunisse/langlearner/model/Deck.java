@@ -3,14 +3,18 @@ package nl.margothteunisse.langlearner.model;
 import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 @Component
 public class Deck {
-    private final TextVocabulary vocab;
-    private int size;
+    private final Vocabulary vocab;
+    private final List<Integer> cardsInDeck = new ArrayList<>();
 
-    Deck(TextVocabulary vocab) {
+    Deck(Vocabulary vocab) {
         this.vocab = vocab;
-        size = vocab.wordCount();
+        cardsInDeck.addAll(vocab.getAllCardIDs());
     }
     
     
@@ -18,13 +22,12 @@ public class Deck {
         if (size() == 0) {
             throw new DeckEmptyException();
         }
-        Card card = vocab.getCardByID(size-1);
-
-        size--;
+        Card card = vocab.getCardByID(cardsInDeck.get(0));
+        cardsInDeck.remove(0);
         return card;
     }
 
     public int size() {
-        return size;
+        return cardsInDeck.size();
     }
 }
