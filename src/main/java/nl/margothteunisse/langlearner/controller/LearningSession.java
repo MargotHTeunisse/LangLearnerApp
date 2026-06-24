@@ -11,7 +11,7 @@ public class LearningSession {
     private Deck deck;
     private UserInterface ui;
 
-    LearningSession (Deck deck, UserInterface ui) throws DeckEmptyException {
+    public LearningSession (Deck deck, UserInterface ui) throws DeckEmptyException {
         this.deck = deck;
         this.ui = ui;
         run();

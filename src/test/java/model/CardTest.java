@@ -1,3 +1,5 @@
+package model;
+
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;

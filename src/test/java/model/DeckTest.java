@@ -1,3 +1,5 @@
+package model;
+
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
