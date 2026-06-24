@@ -1,7 +1,7 @@
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
-import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
+import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

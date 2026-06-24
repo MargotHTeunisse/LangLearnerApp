@@ -1,10 +1,9 @@
 package nl.margothteunisse.langlearner.model;
 
-import nl.margothteunisse.langlearner.exceptions.DeckEmptyException;
+import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -16,8 +15,7 @@ public class Deck {
         this.vocab = vocab;
         cardsInDeck.addAll(vocab.getAllCardIDs());
     }
-    
-    
+
     public Card draw() throws DeckEmptyException {
         if (size() == 0) {
             throw new DeckEmptyException();
