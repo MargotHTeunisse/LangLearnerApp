@@ -3,31 +3,39 @@ package nl.margothteunisse.langlearner.controller;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
-import nl.margothteunisse.langlearner.view.UserInterface;
+import nl.margothteunisse.langlearner.view.IView;
 import org.springframework.stereotype.Controller;
 
-@Controller
-public class LearningSession {
-    private Deck deck;
-    private UserInterface ui;
+import java.util.Scanner;
 
-    public LearningSession (Deck deck, UserInterface ui) throws DeckEmptyException {
+@Controller
+public class ConsoleSession {
+    private Deck deck;
+    private IView view;
+
+    public ConsoleSession(Deck deck, IView view) throws DeckEmptyException {
         this.deck = deck;
-        this.ui = ui;
+        this.view = view;
         run();
     }
 
     private void run() throws DeckEmptyException {
+        Scanner scn = new Scanner(System.in);
         while (deck.size() > 0) {
             Card card = deck.draw();
-            String answer = ui.askForTranslation(card.read());
+            view.updateCard(card.read());
+            System.out.println(view.display());
+
+            String answer = scn.nextLine();
             if (card.check(answer)) {
-                ui.showCorrect();
+                view.updateCorrect();
             }
             else {
                 card.flip();
-                ui.showIncorrect(card.read());
+                view.updateIncorrect(card.read());
             }
         }
+        view.close();
+        System.out.println(view.display());
     }
 }
