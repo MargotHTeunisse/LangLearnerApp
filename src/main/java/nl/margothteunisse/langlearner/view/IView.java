@@ -1,7 +1,9 @@
 package nl.margothteunisse.langlearner.view;
 
+import org.springframework.http.ResponseEntity;
+
 public interface IView {
-    String display();
+    ResponseEntity<String> display();
 
     void close();
 

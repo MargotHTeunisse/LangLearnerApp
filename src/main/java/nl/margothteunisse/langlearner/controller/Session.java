@@ -4,6 +4,7 @@ import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import nl.margothteunisse.langlearner.view.IView;
+import org.springframework.http.ResponseEntity;
 
 public abstract class Session {
     Deck deck;
@@ -15,7 +16,7 @@ public abstract class Session {
         this.view = view;
     }
 
-    String getUpdatedView(String answer) {
+    ResponseEntity<String> getUpdatedView(String answer) {
         if (card != null) {
             if (card.check(answer)) {
                 view.updateCorrect();

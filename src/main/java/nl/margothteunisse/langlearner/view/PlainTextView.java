@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner.view;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,7 +11,7 @@ public class PlainTextView implements IView {
     private boolean deckIsEmpty = false;
 
     @Override
-    public String display() {
+    public ResponseEntity<String> display() {
         String message = feedbackMessage;
         if (deckIsEmpty) {
             message += "You have finished translating all words!";
@@ -19,7 +20,7 @@ public class PlainTextView implements IView {
         else {
             message += "Translate: " + cardFront;
         }
-        return message;
+        return ResponseEntity.ok().body(message);
     }
 
     @Override

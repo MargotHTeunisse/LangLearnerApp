@@ -1,10 +1,12 @@
 package nl.margothteunisse.langlearner.view;
 
+import org.springframework.http.ResponseEntity;
+
 public class FakeView implements IView {
 
     @Override
-    public String display() {
-        return "";
+    public ResponseEntity<String> display() {
+        return null;
     }
 
     @Override
