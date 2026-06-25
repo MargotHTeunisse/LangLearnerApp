@@ -14,6 +14,7 @@ public class PlainTextView implements IView {
         String message = feedbackMessage;
         if (deckIsEmpty) {
             message += "You have finished translating all words!";
+            feedbackMessage = "";
         }
         else {
             message += "Translate: " + cardFront;

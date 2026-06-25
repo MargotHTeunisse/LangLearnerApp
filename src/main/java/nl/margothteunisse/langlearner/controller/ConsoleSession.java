@@ -1,41 +1,26 @@
 package nl.margothteunisse.langlearner.controller;
 
-import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import nl.margothteunisse.langlearner.view.IView;
 import org.springframework.stereotype.Controller;
 
 import java.util.Scanner;
 
-@Controller
-public class ConsoleSession {
-    private Deck deck;
-    private IView view;
-
-    public ConsoleSession(Deck deck, IView view) throws DeckEmptyException {
-        this.deck = deck;
-        this.view = view;
+//@Controller
+public class ConsoleSession extends Session {
+    public ConsoleSession(Deck deck, IView view) {
+        super(deck, view);
         run();
     }
 
-    private void run() throws DeckEmptyException {
+    private void run() {
         Scanner scn = new Scanner(System.in);
+        String answer = "";
         while (deck.size() > 0) {
-            Card card = deck.draw();
-            view.updateCard(card.read());
-            System.out.println(view.display());
+            System.out.println(getUpdatedView(answer));
 
-            String answer = scn.nextLine();
-            if (card.check(answer)) {
-                view.updateCorrect();
-            }
-            else {
-                card.flip();
-                view.updateIncorrect(card.read());
-            }
+            answer = scn.nextLine();
         }
-        view.close();
-        System.out.println(view.display());
+        System.out.println(getUpdatedView(answer));
     }
 }
