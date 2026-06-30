@@ -23,6 +23,10 @@ public class PlainTextView implements IView {
         return ResponseEntity.ok().body(message);
     }
 
+    public ResponseEntity<String> displayFeedback() {
+        return ResponseEntity.ok().body(feedbackMessage);
+    }
+
     @Override
     public void close() {
         deckIsEmpty = true;

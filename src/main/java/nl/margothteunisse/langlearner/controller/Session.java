@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 public abstract class Session {
     Deck deck;
     private Card card;
-    private final IView view;
+    final IView view;
 
     public Session(Deck deck, IView view) {
         this.deck = deck;
         this.view = view;
     }
 
-    ResponseEntity<String> getUpdatedView(String answer) {
+    void updateView(String answer) {
         if (card != null) {
             if (card.check(answer)) {
                 view.updateCorrect();
@@ -27,12 +27,12 @@ public abstract class Session {
         }
 
         try {
-            card = deck.draw();
+            deck.draw();
+            card = deck.getDrawnCard();
             view.updateCard(card.read());
         } catch (DeckEmptyException e) {
             view.close();
             card = null;
         }
-        return view.display();
     }
 }

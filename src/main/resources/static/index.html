@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>LangLearner</title>
+    <link rel="shortcut icon" href="#">
     <script src="js/fetch-word.js" async></script>
+    <script src="js/submit-answer.js" async></script>
 </head>
-<body onload=fetchWord()>
+<body onload="fetchWord()">
+<div id="feedback"></div>
 <div id="word">#####</div>
-<form><input id = "answer" name="answer" type="text"><input type="submit" value="Check"></form>
+<form>
+    <input id = "answer" name="answer" type="text">
+    <input type = "button" onclick=submitAnswer() value="Check"></form>
 </body>
 </html>

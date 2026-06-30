@@ -1,6 +1,13 @@
 async function fetchWord() {
-    var wordToTranslate = document.getElementById('word');
-    let fetchedWord = await fetch("/session/")
-        .then(response => response.text());
-    wordToTranslate.textContent = fetchedWord;
+    var deckContainsCards = await fetch("/session/draw-next-card")
+        .then(response => response.json())
+
+    var wordToTranslate = document.getElementById("word");
+    if (deckContainsCards) {
+        wordToTranslate.textContent = "Translate:" + await fetch("/session/fetch-word")
+            .then(response => response.text());
+    }
+    else {
+        wordToTranslate.textContent = "You have translated all words!";
+    }
 }

@@ -12,4 +12,6 @@ public interface IView {
     void updateCorrect();
 
     void updateIncorrect(String cardBack);
+
+    ResponseEntity<String> displayFeedback();
 }

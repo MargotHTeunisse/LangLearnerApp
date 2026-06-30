@@ -28,4 +28,9 @@ public class FakeView implements IView {
     public void updateIncorrect(String cardBack) {
 
     }
+
+    @Override
+    public ResponseEntity<String> displayFeedback() {
+        return null;
+    }
 }

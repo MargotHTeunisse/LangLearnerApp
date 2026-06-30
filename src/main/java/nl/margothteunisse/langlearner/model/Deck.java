@@ -10,19 +10,23 @@ import java.util.List;
 public class Deck {
     private final Vocabulary vocab;
     private final List<Integer> cardsInDeck = new ArrayList<>();
+    private Card drawnCard;
 
     Deck(Vocabulary vocab) {
         this.vocab = vocab;
         cardsInDeck.addAll(vocab.getAllCardIDs());
     }
 
-    public Card draw() throws DeckEmptyException {
+    public Card getDrawnCard() {
+        return drawnCard;
+    }
+
+    public void draw() throws DeckEmptyException {
         if (size() == 0) {
             throw new DeckEmptyException();
         }
-        Card card = vocab.getCardByID(cardsInDeck.get(0));
+        drawnCard = vocab.getCardByID(cardsInDeck.get(0));
         cardsInDeck.remove(0);
-        return card;
     }
 
     public int size() {

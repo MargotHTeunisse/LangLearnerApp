@@ -1,6 +1,7 @@
 package model;
 
 import nl.margothteunisse.langlearner.model.Card;
+import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +15,9 @@ public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
     public void testCardFrontIsRead(String file, String front) throws DeckEmptyException, IOException {
-        Card card = new TextVocabulary(file).createDeck().draw();
+        Deck deck = new TextVocabulary(file).createDeck();
+        deck.draw();
+        Card card = deck.getDrawnCard();
 
         String readText = card.read();
 
@@ -24,7 +27,9 @@ public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
     public void testCardBackIsReadAfterFlipping(String file, String back) throws DeckEmptyException, IOException {
-        Card card = new TextVocabulary(file).createDeck().draw();
+        Deck deck = new TextVocabulary(file).createDeck();
+        deck.draw();
+        Card card = deck.getDrawnCard();
 
         card.flip();
 
@@ -36,7 +41,9 @@ public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
     public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws DeckEmptyException, IOException {
-        Card card = new TextVocabulary(file).createDeck().draw();
+        Deck deck = new TextVocabulary(file).createDeck();
+        deck.draw();
+        Card card = deck.getDrawnCard();
 
         boolean answerIsCorrect = card.check(back);
 
@@ -46,7 +53,9 @@ public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
     public void testCheckReturnsTrueIfInputMatchesFrontAfterFlipping(String file, String front) throws DeckEmptyException, IOException {
-        Card card = new TextVocabulary(file).createDeck().draw();
+        Deck deck = new TextVocabulary(file).createDeck();
+        deck.draw();
+        Card card = deck.getDrawnCard();
         card.flip();
 
         boolean answerIsCorrect = card.check(front);
@@ -57,7 +66,9 @@ public class CardTest {
     @ParameterizedTest
     @ValueSource(strings = {"", "cat", "koira"})
     public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws DeckEmptyException, IOException {
-        Card card = new TextVocabulary("cat.txt").createDeck().draw();
+        Deck deck = new TextVocabulary("cat.txt").createDeck();
+        deck.draw();
+        Card card = deck.getDrawnCard();
 
         boolean answerIsCorrect = card.check(input);
 

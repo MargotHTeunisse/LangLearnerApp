@@ -2,6 +2,7 @@ package model;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
+import nl.margothteunisse.langlearner.model.EmptyVocabulary;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
@@ -11,8 +12,8 @@ import java.io.IOException;
 
 public class DeckTest {
     @Test
-    public void testCannotDrawFromEmptyDeck() throws IOException {
-        Deck deck = new TextVocabulary("empty.txt").createDeck();
+    public void testCannotDrawFromEmptyDeck() {
+        Deck deck = new EmptyVocabulary().createDeck();
 
         Assertions.assertThrows(DeckEmptyException.class, deck::draw);
     }
@@ -26,7 +27,7 @@ public class DeckTest {
 
     @Test
     public void testEmptyDeckContainsNoCards() throws IOException {
-        Deck deck = new TextVocabulary("empty.txt").createDeck();
+        Deck deck = new EmptyVocabulary().createDeck();
 
         int deckSize = deck.size();
 
@@ -55,9 +56,11 @@ public class DeckTest {
     @Test
     public void testFrontOfSecondCardIsDifferentFromFirst() throws IOException, DeckEmptyException {
         Deck deck = new TextVocabulary("wordlist.txt").createDeck();
-        Card firstCard = deck.draw();
+        deck.draw();
+        Card firstCard = deck.getDrawnCard();
+        deck.draw();
 
-        Card secondCard = deck.draw();
+        Card secondCard = deck.getDrawnCard();
 
         Assertions.assertNotEquals(firstCard.read(), secondCard.read());
     }

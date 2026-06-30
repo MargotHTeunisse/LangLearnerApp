@@ -15,10 +15,12 @@ public class ConsoleSession extends Session {
         Scanner scn = new Scanner(System.in);
         String answer = "";
         while (deck.size() > 0) {
-            System.out.println(getUpdatedView(answer).getBody());
+            updateView(answer);
+            System.out.println(view.display().getBody());
 
             answer = scn.nextLine();
         }
-        System.out.println(getUpdatedView(answer).getBody());
+        updateView(answer);
+        System.out.println(view.display().getBody());
     }
 }
