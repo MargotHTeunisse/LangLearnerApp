@@ -15,9 +15,10 @@ public class WebSession extends Session{
 
     public WebSession(Deck deck, IView view) throws DeckEmptyException {
         super(deck, view);
+        deck.draw();
     }
 
-    @RequestMapping("/draw-next-card")
+    @PostMapping("/draw-next-card")
     public ResponseEntity<Boolean> drawNextCard() {
         try {
             deck.draw();
@@ -27,13 +28,13 @@ public class WebSession extends Session{
         }
     }
 
-    @RequestMapping("/fetch-word")
+    @GetMapping("/fetch-word")
     public ResponseEntity<String> fetchWord() {
         String cardFront = deck.getDrawnCard().read();
         return ResponseEntity.ok().body(cardFront);
     }
 
-    @RequestMapping("/submit-answer")
+    @PostMapping("/submit-answer")
     public ResponseEntity<Boolean> submitAnswer(@RequestBody Map<String, String> requestBody) {
         boolean answerIsCorrect = deck.getDrawnCard().check(requestBody.get("answer"));
         return ResponseEntity.ok().body(answerIsCorrect);

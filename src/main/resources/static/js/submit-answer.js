@@ -1,6 +1,7 @@
 async function submitAnswer() {
-    var feedback = document.getElementById("feedback");
-    feedback.textContent = await fetch("/session/submit-answer",
+
+    let feedback = document.getElementById("feedback");
+    let answerIsCorrect = await fetch("/session/submit-answer",
         {
             method: "POST",
             body: JSON.stringify({answer: document.getElementById("answer").value}),
@@ -9,4 +10,17 @@ async function submitAnswer() {
             }
         })
         .then(response => response.json());
+
+    if (answerIsCorrect) {
+        feedback.textContent = "Correct!";
+        let checkButton = document.getElementById("check");
+        let translation = checkButton.parentElement;
+        let answer = document.getElementById("answer");
+        translation.removeChild(answer);
+        translation.removeChild(checkButton);
+        translation.textContent += answer.value;
+    }
+    else {
+        feedback.textContent = "That is incorrect.";
+    }
 }
