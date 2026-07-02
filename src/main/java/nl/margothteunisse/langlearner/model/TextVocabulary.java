@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner.model;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -14,7 +15,8 @@ import java.util.List;
 public class TextVocabulary extends Vocabulary {
     private final String[][] words;
 
-    public TextVocabulary(String filename) throws IOException {
+    public TextVocabulary(@Value("${vocabulary.filename}") String filename)
+            throws IOException {
         List<String> lines = readFile(filename);
         words = new String[lines.size()][2];
         int wordIndex = 0;
