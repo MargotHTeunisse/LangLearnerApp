@@ -1,17 +1,21 @@
-package nl.margothteunisse.langlearner.controller;
+package nl.margothteunisse.langlearner.api;
 
 import nl.margothteunisse.langlearner.model.Deck;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Profile("web")
 @RestController
 @RequestMapping("/session")
-public class WebSession extends Session implements AutoCloseable{
+public class WebSession {
+    private Deck deck;
 
     public WebSession(Deck deck) {
-        super(deck);
+        this.deck = deck;
+        deck.draw();
     }
 
     @PostMapping("/draw-next-card")
