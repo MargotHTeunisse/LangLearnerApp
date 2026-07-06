@@ -1,9 +1,7 @@
 package model;
 
-import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
-import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,63 +12,33 @@ import java.io.IOException;
 public class CardTest {
     @ParameterizedTest
     @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
-    public void testCardFrontIsRead(String file, String front) throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary(file).createDeck();
+    public void testCardFrontIsRead(String file, String front) throws IOException {
+        Deck deck = new Deck(new TextVocabulary(file));
         deck.draw();
-        Card card = deck.getDrawnCard();
 
-        String readText = card.read();
+        String readText = deck.readCard();
 
         Assertions.assertEquals(front, readText);
     }
 
     @ParameterizedTest
     @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
-    public void testCardBackIsReadAfterFlipping(String file, String back) throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary(file).createDeck();
+    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws IOException {
+        Deck deck = new Deck(new TextVocabulary(file));
         deck.draw();
-        Card card = deck.getDrawnCard();
 
-        card.flip();
-
-        String readText = card.read();
-
-        Assertions.assertEquals(back, readText);
-    }
-
-    @ParameterizedTest
-    @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
-    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary(file).createDeck();
-        deck.draw();
-        Card card = deck.getDrawnCard();
-
-        boolean answerIsCorrect = card.check(back);
-
-        Assertions.assertTrue(answerIsCorrect);
-    }
-
-    @ParameterizedTest
-    @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
-    public void testCheckReturnsTrueIfInputMatchesFrontAfterFlipping(String file, String front) throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary(file).createDeck();
-        deck.draw();
-        Card card = deck.getDrawnCard();
-        card.flip();
-
-        boolean answerIsCorrect = card.check(front);
+        boolean answerIsCorrect = deck.translateCard(back);
 
         Assertions.assertTrue(answerIsCorrect);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "cat", "koira"})
-    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary("cat.txt").createDeck();
+    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws IOException {
+        Deck deck = new Deck(new TextVocabulary("cat.txt"));
         deck.draw();
-        Card card = deck.getDrawnCard();
 
-        boolean answerIsCorrect = card.check(input);
+        boolean answerIsCorrect = deck.translateCard(input);
 
         Assertions.assertFalse(answerIsCorrect);
     }

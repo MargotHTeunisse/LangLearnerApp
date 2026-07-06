@@ -1,6 +1,6 @@
 package nl.margothteunisse.langlearner.model;
 
-public class Card {
+class Card {
     private final String front;
     private final String back;
     private boolean flipped = false;
@@ -10,15 +10,15 @@ public class Card {
         this.back = back;
     }
 
-    public String read() {
+    String read() {
         return flipped? back:front;
     }
 
-    public boolean check(String input) {
+    boolean check(String input) {
         return (flipped? input.equals(front):input.equals(back));
     }
 
-    public void flip() {
+    void flip() {
         flipped = !flipped;
     }
 }

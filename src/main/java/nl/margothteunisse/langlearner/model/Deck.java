@@ -1,6 +1,5 @@
 package nl.margothteunisse.langlearner.model;
 
-import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,24 +11,29 @@ public class Deck {
     private final List<Integer> cardsInDeck = new ArrayList<>();
     private Card drawnCard;
 
-    Deck(Vocabulary vocab) {
+    public Deck(Vocabulary vocab) {
         this.vocab = vocab;
         cardsInDeck.addAll(vocab.getAllCardIDs());
     }
 
-    public Card getDrawnCard() {
-        return drawnCard;
+    public String readCard() {
+        return drawnCard.read();
     }
 
-    public void draw() throws DeckEmptyException {
-        if (size() == 0) {
-            throw new DeckEmptyException();
+    public boolean translateCard(String answer) {return drawnCard.check(answer);}
+
+    public boolean draw() {
+        if (remaining() == 0) {
+            return false;
         }
-        drawnCard = vocab.getCardByID(cardsInDeck.get(0));
-        cardsInDeck.remove(0);
+        else {
+            drawnCard = vocab.getCardByID(cardsInDeck.get(0));
+            cardsInDeck.remove(0);
+            return true;
+        }
     }
 
-    public int size() {
+    public int remaining() {
         return cardsInDeck.size();
     }
 }

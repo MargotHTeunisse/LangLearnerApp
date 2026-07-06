@@ -1,26 +1,26 @@
 package nl.margothteunisse.langlearner.controller;
 
 import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.view.IView;
 
 import java.util.Scanner;
 
-public class ConsoleSession extends Session {
-    public ConsoleSession(Deck deck, IView view) {
-        super(deck, view);
-        run();
+public class ConsoleSession extends Session implements AutoCloseable{
+    public ConsoleSession(Deck deck) {
+        super(deck);
     }
 
-    private void run() {
+    public void run() {
         Scanner scn = new Scanner(System.in);
-        String answer = "";
-        while (deck.size() > 0) {
-            updateView(answer);
-            System.out.println(view.display().getBody());
-
-            answer = scn.nextLine();
+        while (deck.draw()) {
+            System.out.println("Translate: " + deck.readCard());
+            String answer = scn.nextLine();
+            if (deck.translateCard(answer)) {
+                System.out.println("Correct!");
+            }
+            else {
+                System.out.println("That is incorrect.");
+            }
         }
-        updateView(answer);
-        System.out.println(view.display().getBody());
+        System.out.println("You have translated all words!");
     }
 }

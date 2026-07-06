@@ -1,10 +1,8 @@
 package model;
 
-import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.EmptyVocabulary;
 import nl.margothteunisse.langlearner.model.TextVocabulary;
-import nl.margothteunisse.langlearner.model.exceptions.DeckEmptyException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,55 +11,59 @@ import java.io.IOException;
 public class DeckTest {
     @Test
     public void testCannotDrawFromEmptyDeck() {
-        Deck deck = new EmptyVocabulary().createDeck();
+        Deck deck = new Deck(new EmptyVocabulary());
 
-        Assertions.assertThrows(DeckEmptyException.class, deck::draw);
+        boolean canDraw = deck.draw();
+
+        Assertions.assertFalse(canDraw);
     }
 
     @Test
     public void testCanDrawFromNonEmptyDeck() throws IOException {
-        Deck deck = new TextVocabulary("cat.txt").createDeck();
+        Deck deck = new Deck(new TextVocabulary("cat.txt"));
 
-        Assertions.assertDoesNotThrow(deck::draw);
+        boolean canDraw = deck.draw();
+
+        Assertions.assertTrue(canDraw);
     }
 
     @Test
-    public void testEmptyDeckContainsNoCards() throws IOException {
-        Deck deck = new EmptyVocabulary().createDeck();
+    public void testEmptyDeckContainsNoCards() {
+        Deck deck = new Deck(new EmptyVocabulary());
 
-        int deckSize = deck.size();
+        int deckSize = deck.remaining();
 
         Assertions.assertEquals(0, deckSize);
     }
 
     @Test
     public void testNonEmptyDeckContainsCards() throws IOException {
-        Deck deck = new TextVocabulary("cat.txt").createDeck();
+        Deck deck = new Deck(new TextVocabulary("cat.txt"));
 
-        int deckSize = deck.size();
+        int deckSize = deck.remaining();
 
         Assertions.assertNotEquals(0, deckSize);
     }
 
     @Test
-    public void testDeckSizeDecreasesByOneAfterDrawing() throws DeckEmptyException, IOException {
-        Deck deck = new TextVocabulary("cat.txt").createDeck();
-        int initialDeckSize = deck.size();
+    public void testDeckSizeDecreasesByOneAfterDrawing() throws IOException {
+        Deck deck = new Deck(new TextVocabulary("cat.txt"));
+        int initialDeckSize = deck.remaining();
 
         deck.draw();
 
-        Assertions.assertEquals(initialDeckSize-1, deck.size());
+        Assertions.assertEquals(initialDeckSize-1, deck.remaining());
     }
 
     @Test
-    public void testFrontOfSecondCardIsDifferentFromFirst() throws IOException, DeckEmptyException {
-        Deck deck = new TextVocabulary("wordlist.txt").createDeck();
+    public void testFrontOfSecondCardIsDifferentFromFirst() throws IOException {
+        Deck deck = new Deck(new TextVocabulary("wordlist.txt"));
         deck.draw();
-        Card firstCard = deck.getDrawnCard();
+        String firstCard = deck.readCard();
         deck.draw();
 
-        Card secondCard = deck.getDrawnCard();
+        String secondCard = deck.readCard();
 
-        Assertions.assertNotEquals(firstCard.read(), secondCard.read());
+        Assertions.assertNotEquals(firstCard, secondCard);
     }
 }
