@@ -2,7 +2,6 @@ package nl.margothteunisse.langlearner;
 
 import nl.margothteunisse.langlearner.model.Deck;
 import org.jspecify.annotations.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,8 +13,11 @@ import java.util.Scanner;
 @SpringBootApplication
 @Profile("console")
 public class LangLearnerConsole  implements CommandLineRunner{
-    @Autowired
-    private Deck deck;
+    private final Deck deck;
+
+    public LangLearnerConsole(Deck deck) {
+        this.deck = deck;
+    }
 
     public static void main(String @NonNull [] args) {
         ApplicationContext context = SpringApplication.run(LangLearnerConsole.class, args);
