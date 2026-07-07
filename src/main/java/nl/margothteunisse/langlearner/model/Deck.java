@@ -16,14 +16,10 @@ public class Deck {
         cardsInDeck.addAll(vocab.getAllCardIDs());
     }
 
-    public String readCard() {
-        return drawnCard.read();
-    }
-
-    public boolean translateCard(String answer) {return drawnCard.check(answer);}
+    public Card getDrawnCard() {return drawnCard;}
 
     public boolean draw() {
-        if (remaining() == 0) {
+        if (cardsInDeck.isEmpty()) {
             return false;
         }
         else {
@@ -31,9 +27,5 @@ public class Deck {
             cardsInDeck.remove(0);
             return true;
         }
-    }
-
-    public int remaining() {
-        return cardsInDeck.size();
     }
 }

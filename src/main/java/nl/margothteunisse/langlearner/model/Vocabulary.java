@@ -1,8 +1,8 @@
 package nl.margothteunisse.langlearner.model;
 
-import java.util.Collection;
+import java.util.List;
 
-abstract class Vocabulary {
-    abstract Card getCardByID(int cardID);
-    abstract Collection<Integer> getAllCardIDs();
+interface Vocabulary {
+    Card getCardByID(int cardID);
+    List<Integer> getAllCardIDs();
 }

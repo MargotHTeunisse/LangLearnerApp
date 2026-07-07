@@ -16,7 +16,7 @@ public class CardTest {
         Deck deck = new Deck(new TextVocabulary(file));
         deck.draw();
 
-        String readText = deck.readCard();
+        String readText = deck.getDrawnCard().read();
 
         Assertions.assertEquals(front, readText);
     }
@@ -27,7 +27,7 @@ public class CardTest {
         Deck deck = new Deck(new TextVocabulary(file));
         deck.draw();
 
-        boolean answerIsCorrect = deck.translateCard(back);
+        boolean answerIsCorrect = deck.getDrawnCard().check(back);
 
         Assertions.assertTrue(answerIsCorrect);
     }
@@ -38,7 +38,7 @@ public class CardTest {
         Deck deck = new Deck(new TextVocabulary("cat.txt"));
         deck.draw();
 
-        boolean answerIsCorrect = deck.translateCard(input);
+        boolean answerIsCorrect = deck.getDrawnCard().check(input);
 
         Assertions.assertFalse(answerIsCorrect);
     }

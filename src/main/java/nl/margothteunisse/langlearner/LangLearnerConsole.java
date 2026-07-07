@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner;
 
+import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
@@ -27,9 +28,10 @@ public class LangLearnerConsole  implements CommandLineRunner{
     public void run(String[] args) {
         Scanner scn = new Scanner(System.in);
         while (deck.draw()) {
-            System.out.println("Translate: " + deck.readCard());
+            Card card = deck.getDrawnCard();
+            System.out.println("Translate: " + card.read());
             String answer = scn.nextLine();
-            if (deck.translateCard(answer)) {
+            if (card.check(answer)) {
                 System.out.println("Correct!");
             }
             else {

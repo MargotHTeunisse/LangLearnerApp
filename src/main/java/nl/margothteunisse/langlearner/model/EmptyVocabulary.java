@@ -1,16 +1,15 @@
 package nl.margothteunisse.langlearner.model;
 
-import java.util.Collection;
 import java.util.List;
 
-public class EmptyVocabulary extends Vocabulary{
+public class EmptyVocabulary implements Vocabulary{
     @Override
-    Card getCardByID(int cardID) {
+    public Card getCardByID(int cardID) {
         return null;
     }
 
     @Override
-    Collection<Integer> getAllCardIDs() {
+    public List<Integer> getAllCardIDs() {
         return List.of();
     }
 }

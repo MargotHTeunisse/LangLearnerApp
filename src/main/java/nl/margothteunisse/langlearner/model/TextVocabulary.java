@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -12,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TextVocabulary extends Vocabulary {
+public class TextVocabulary implements Vocabulary {
     private final String[][] words;
 
     public TextVocabulary(@Value("${vocabulary.filename}") String filename)
-            throws IOException {
+             {
         List<String> lines = readFile(filename);
         words = new String[lines.size()][2];
         int wordIndex = 0;
@@ -27,7 +26,7 @@ public class TextVocabulary extends Vocabulary {
         }
     }
 
-    private static List<String> readFile(String filename) throws IOException {
+    private static List<String> readFile(String filename) {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classloader.getResourceAsStream(filename);
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);

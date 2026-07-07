@@ -11,7 +11,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/session")
 public class WebSession {
-    private Deck deck;
+    private final Deck deck;
 
     public WebSession(Deck deck) {
         this.deck = deck;
@@ -25,13 +25,13 @@ public class WebSession {
 
     @GetMapping("/fetch-word")
     public ResponseEntity<String> fetchWord() {
-        String cardFront = deck.readCard();
+        String cardFront = deck.getDrawnCard().read();
         return ResponseEntity.ok().body(cardFront);
     }
 
     @PostMapping("/submit-answer")
     public ResponseEntity<Boolean> submitAnswer(@RequestBody Map<String, String> requestBody) {
-        boolean answerIsCorrect = deck.translateCard(requestBody.get("answer"));
+        boolean answerIsCorrect = deck.getDrawnCard().check(requestBody.get("answer"));
         return ResponseEntity.ok().body(answerIsCorrect);
     }
 }
