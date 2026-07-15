@@ -13,12 +13,18 @@ async function submitAnswer() {
 
     if (answerIsCorrect) {
         feedback.textContent = "Correct!";
-        let checkButton = document.getElementById("check");
-        let translation = checkButton.parentElement;
-        let answer = document.getElementById("answer");
+        let translation = document.getElementById("translation");
+        let answer = document.getElementById("answer")
         translation.removeChild(answer);
-        translation.removeChild(checkButton);
         translation.textContent += answer.value;
+
+        var drawButton = document.getElementById("drawButton");
+
+        document.addEventListener('keypress', (e) => {
+            if (e.key === "Enter") {
+                    drawButton.click();
+            }
+        });
     }
     else {
         feedback.textContent = "That is incorrect.";
