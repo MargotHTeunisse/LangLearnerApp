@@ -9,12 +9,11 @@
     <script src="js/submit-answer.js" async></script>
     <script src="js/draw-next.js" async></script>
 </head>
-<body onload=fetchWord()>
+<body>
 <div>
 <div id="word" class="card">#####</div>
 <form id="translation"> Your translation:
-    <input id = "answer" type="text">
-<!--<input type = "button" id = "check" onclick=submitAnswer() value="Check">-->
+    <input id = "answer" type="text" autofocus="autofocus">
 </form>
 <div id="feedback"><br></div>
     <div style="position:relative;text-align:right">
@@ -23,7 +22,8 @@
 </div>
 
 <script>
-    // your form
+    onload = () => {fetchWord();}
+
     var form = document.getElementById("translation");
 
     form.addEventListener('submit', (e) => {
