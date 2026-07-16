@@ -9,13 +9,13 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class Deck {
-    private final Vocabulary vocab;
+    public final IVocabulary vocabulary;
     private final List<Integer> cardsInDeck = new ArrayList<>();
     private Card drawnCard;
 
-    public Deck(Vocabulary vocab) {
-        this.vocab = vocab;
-        cardsInDeck.addAll(vocab.getAllCardIDs());
+    public Deck(IVocabulary vocabulary) {
+        this.vocabulary = vocabulary;
+        cardsInDeck.addAll(vocabulary.getAllCardIDs());
     }
 
     public Card getDrawnCard() {return drawnCard;}
@@ -25,7 +25,7 @@ public class Deck {
             return false;
         }
         else {
-            drawnCard = vocab.getCardByID(cardsInDeck.get(0));
+            drawnCard = vocabulary.getCardByID(cardsInDeck.get(0));
             cardsInDeck.remove(0);
             return true;
         }

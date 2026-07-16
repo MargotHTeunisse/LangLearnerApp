@@ -29,6 +29,12 @@ public class WebSession {
         return ResponseEntity.ok().body(cardFront);
     }
 
+    @GetMapping("/fetch-vocab-size")
+    public ResponseEntity<Integer> fetchVocabSize() {
+        int vocabSize = deck.vocabulary.getAllCardIDs().size();
+        return ResponseEntity.ok().body(vocabSize);
+    }
+
     @PostMapping("/submit")
     public ResponseEntity<Boolean> submitAnswer(@RequestParam String answer) {
         boolean answerIsCorrect = deck.getDrawnCard().check(answer);

@@ -2,7 +2,7 @@ package nl.margothteunisse.langlearner.model;
 
 import java.util.List;
 
-interface Vocabulary {
+public interface IVocabulary {
     Card getCardByID(int cardID);
     List<Integer> getAllCardIDs();
 }

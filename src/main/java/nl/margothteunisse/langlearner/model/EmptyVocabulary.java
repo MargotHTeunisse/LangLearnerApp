@@ -2,7 +2,7 @@ package nl.margothteunisse.langlearner.model;
 
 import java.util.List;
 
-public class EmptyVocabulary implements Vocabulary{
+public class EmptyVocabulary implements IVocabulary {
     @Override
     public Card getCardByID(int cardID) {
         return null;
