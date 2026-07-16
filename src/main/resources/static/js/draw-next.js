@@ -1,5 +1,5 @@
 async function drawNext() {
-    let deckContainsCards = await fetch("/session/draw-next-card", {method: "POST"})
+    let deckContainsCards = await fetch("/session/draw-next-card", {method: "PATCH"})
         .then(response => response.json());
 
     if (deckContainsCards) {

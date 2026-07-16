@@ -18,7 +18,7 @@ public class WebSession {
         deck.draw();
     }
 
-    @PostMapping("/draw-next-card")
+    @PatchMapping("/draw-next-card")
     public ResponseEntity<Boolean> drawNextCard() {
         return ResponseEntity.ok().body(deck.draw());
     }
@@ -29,9 +29,9 @@ public class WebSession {
         return ResponseEntity.ok().body(cardFront);
     }
 
-    @PostMapping("/submit-answer")
-    public ResponseEntity<Boolean> submitAnswer(@RequestBody Map<String, String> requestBody) {
-        boolean answerIsCorrect = deck.getDrawnCard().check(requestBody.get("answer"));
+    @PostMapping("/submit")
+    public ResponseEntity<Boolean> submitAnswer(@RequestParam String answer) {
+        boolean answerIsCorrect = deck.getDrawnCard().check(answer);
         return ResponseEntity.ok().body(answerIsCorrect);
     }
 }
