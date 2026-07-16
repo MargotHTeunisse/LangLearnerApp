@@ -1,8 +1,8 @@
 package model;
 
 import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.model.EmptyVocabulary;
-import nl.margothteunisse.langlearner.model.TextVocabulary;
+import nl.margothteunisse.langlearner.model.vocabularies.EmptyVocabulary;
+import nl.margothteunisse.langlearner.model.vocabularies.TextVocabulary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

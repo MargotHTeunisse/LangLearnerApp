@@ -5,7 +5,7 @@ public class Card {
     private final String back;
 
 
-    Card(String front, String back) {
+    public Card(String front, String back) {
         this.front = front;
         this.back = back;
     }

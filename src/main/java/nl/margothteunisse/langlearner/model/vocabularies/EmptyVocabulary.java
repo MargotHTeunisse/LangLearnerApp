@@ -1,4 +1,7 @@
-package nl.margothteunisse.langlearner.model;
+package nl.margothteunisse.langlearner.model.vocabularies;
+
+import nl.margothteunisse.langlearner.model.Card;
+import nl.margothteunisse.langlearner.model.IVocabulary;
 
 import java.util.List;
 
