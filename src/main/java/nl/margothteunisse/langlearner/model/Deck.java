@@ -1,11 +1,13 @@
 package nl.margothteunisse.langlearner.model;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Scope("prototype")
 public class Deck {
     private final Vocabulary vocab;
     private final List<Integer> cardsInDeck = new ArrayList<>();

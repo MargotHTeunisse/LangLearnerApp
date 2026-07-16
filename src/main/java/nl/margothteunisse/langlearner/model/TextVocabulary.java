@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TextVocabulary implements Vocabulary {
+public class TextVocabulary implements IVocabulary {
     private final String[][] words;
 
     public TextVocabulary(@Value("${vocabulary.filename}") String filename)

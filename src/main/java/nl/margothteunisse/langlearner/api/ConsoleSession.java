@@ -4,12 +4,14 @@ import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.util.Scanner;
 
 @Controller
 @Profile("console")
+@Scope("prototype")
 public class ConsoleSession implements CommandLineRunner {
     Deck deck;
 

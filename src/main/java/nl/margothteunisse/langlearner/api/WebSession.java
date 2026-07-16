@@ -4,12 +4,12 @@ import nl.margothteunisse.langlearner.model.Deck;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.context.annotation.SessionScope;
 
 @Profile("web")
 @RestController
 @RequestMapping("/session")
+@SessionScope
 public class WebSession {
     private final Deck deck;
 
