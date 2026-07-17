@@ -25,13 +25,6 @@ public class RestAPI implements ApplicationContextAware {
         return cardFront;
     }
 
-    @GetMapping("/fetch-vocab-size")
-    public Integer fetchVocabSize() {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
-        int vocabSize = deck.vocabulary.getAllCardIDs().size();
-        return vocabSize;
-    }
-
     @PostMapping("/submit")
     public Boolean submitAnswer(@RequestParam String answer) {
         Deck deck = (Deck) applicationContext.getBean("userDeck");

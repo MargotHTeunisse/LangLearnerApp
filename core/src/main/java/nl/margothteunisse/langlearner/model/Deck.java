@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class Deck {
-    public final IVocabulary vocabulary;
+    private final IVocabulary vocabulary;
     private final List<Integer> cardsInDeck = new ArrayList<>();
     private Card drawnCard;
 
