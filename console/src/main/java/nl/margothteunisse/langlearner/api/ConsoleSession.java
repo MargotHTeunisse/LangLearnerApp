@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import java.util.Scanner;
 
 @Controller
-@Profile("console")
 @Scope("prototype")
 public class ConsoleSession implements CommandLineRunner {
     Deck deck;
