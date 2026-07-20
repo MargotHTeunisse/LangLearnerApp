@@ -7,10 +7,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>console</artifactId>
+    <artifactId>web-app</artifactId>
     <packaging>jar</packaging>
 
-    <name>console</name>
+    <name>web</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>nl.margothteunisse.langlearner</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>web-services</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
@@ -38,7 +38,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>nl.margothteunisse.langlearner.LangLearnerConsole</mainClass>
+                    <mainClass>nl.margothteunisse.langlearner.LangLearnerApp</mainClass>
                     <layout>JAR</layout>
                 </configuration>
             </plugin>

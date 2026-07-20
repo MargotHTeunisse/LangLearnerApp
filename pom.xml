@@ -9,8 +9,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
-        <module>web</module>
-        <module>console</module>
+        <module>web-app</module>
+        <module>console-app</module>
+        <module>web-services</module>
     </modules>
 
     <parent>
