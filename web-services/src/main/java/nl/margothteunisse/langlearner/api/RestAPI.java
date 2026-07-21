@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner.api;
 
+import jakarta.servlet.http.HttpSession;
 import nl.margothteunisse.langlearner.model.Deck;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +17,11 @@ public class RestAPI implements ApplicationContextAware {
     public Boolean drawNextCard() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
         return deck.draw();
+    }
+
+    @PostMapping("/close")
+    public void closeSession(HttpSession session) {
+        session.invalidate();
     }
 
     @GetMapping("/fetch-word")

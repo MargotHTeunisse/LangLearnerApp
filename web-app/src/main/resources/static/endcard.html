@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="css/stylesheet.css">
 </head>
 <body>
-You have translated all words!
+<div>You have translated all words! </div>
+<button id="replayButton" onclick="location.href='index.html'">Play Again</button>
+<script>
+    var replayButton = document.getElementById("replayButton");
+
+    document.addEventListener('keypress', (e) => {
+        if (e.key === "Enter") {
+            replayButton.click();
+        }
+    });
+</script>
 </body>
 </html>

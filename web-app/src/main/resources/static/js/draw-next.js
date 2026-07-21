@@ -7,5 +7,6 @@ async function drawNext() {
     }
     else {
         window.location.replace("endcard.html");
+        await fetch("/session/close", {method:"POST"});
     }
 }
