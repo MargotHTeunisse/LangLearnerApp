@@ -5,26 +5,23 @@
     <title>LangLearner</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="css/stylesheet.css">
-    <script src="js/fetch-word.js" async></script>
-    <script src="js/submit-answer.js" async></script>
-    <script src="js/draw-next.js" async></script>
+    <script src="js/js-functions.js" async></script>
 </head>
 <body>
 <div>
 <div id="word" class="card">#####</div>
-<form id="translation"> Your translation:
-    <input id = "answer" type="text" autofocus="autofocus">
+<form id="translation" autocomplete="off">
 </form>
 <div id="feedback"><br></div>
     <div style="position:relative;text-align:right">
-<input id = "drawButton" type = "button" onclick=drawNext() value = "Draw next">
+        <input id = "button" type = "button" onclick=showAnswer() value = "Show answer">
     </div>
 </div>
 
 <script>
-    onload = () => {fetchWord();}
+    onload = () => {load();}
 
-    var form = document.getElementById("translation");
+    let form = document.getElementById("translation");
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();

@@ -22,6 +22,12 @@ public class RestAPI implements ApplicationContextAware {
         return deck.draw();
     }
 
+    @PatchMapping("/show-answer")
+    public Boolean showAnswer() {
+        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        return deck.getDrawnCard().flip();
+    }
+
     @PostMapping("/close")
     public void closeSession(HttpSession session) {
         session.invalidate();
@@ -30,8 +36,13 @@ public class RestAPI implements ApplicationContextAware {
     @GetMapping("/fetch-word")
     public String fetchWord() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
-        String cardFront = deck.getDrawnCard().read();
-        return cardFront;
+        return deck.getDrawnCard().read();
+    }
+
+    @GetMapping("/fetch-answer-visibility")
+    public Boolean fetchAnswerVisibility() {
+        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        return deck.getDrawnCard().getFlipped();
     }
 
     @PostMapping("/submit")

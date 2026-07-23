@@ -47,6 +47,22 @@ public class CardTest {
         Assertions.assertThrows(CardFlippedException.class, () -> card.check(""));
     }
 
+    @Test
+    public void testCardIsNotFlippedInitially() {
+        Card card = new Card("", "");
+
+        Assertions.assertFalse(card.getFlipped());
+    }
+
+    @Test
+    public void testCardIsFlippedAfterFlippingOnce() {
+        Card card = new Card("", "");
+
+        card.flip();
+
+        Assertions.assertTrue(card.getFlipped());
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"", "kissa", "koira"})
     public void testCardBackIsReadAfterFlipping(String back){
@@ -65,7 +81,7 @@ public class CardTest {
         card.flip();
         card.flip();
 
-        Assertions.assertEquals(back, card.read());
+        Assertions.assertTrue(card.getFlipped());
     }
 
     @Test

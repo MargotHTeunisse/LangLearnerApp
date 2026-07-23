@@ -35,4 +35,8 @@ public class Card {
         flipped = true;
         return true;
     }
+
+    public boolean getFlipped() {
+        return flipped;
+    }
 }
