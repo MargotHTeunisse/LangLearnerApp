@@ -1,44 +1,37 @@
 package model;
 
-import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.model.vocabularies.TextVocabulary;
+import nl.margothteunisse.langlearner.model.Card;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.io.IOException;
 
 public class CardTest {
     @ParameterizedTest
-    @CsvSource({"cat.txt, cat", "dog.txt, dog", "bird.txt, bird", "bear.txt, bear"})
-    public void testCardFrontIsRead(String file, String front) throws IOException {
-        Deck deck = new Deck(new TextVocabulary(file));
-        deck.draw();
+    @ValueSource(strings = {"", "cat", "dog"})
+    public void testCardFrontIsRead(String front) {
+        Card card = new Card(front, "");
 
-        String readText = deck.getDrawnCard().read();
+        String readText = card.read();
 
         Assertions.assertEquals(front, readText);
     }
 
     @ParameterizedTest
-    @CsvSource({"cat.txt, kissa", "dog.txt, koira", "bird.txt, lintu", "bear.txt, karhu"})
-    public void testCheckReturnsTrueIfInputMatchesBack(String file, String back) throws IOException {
-        Deck deck = new Deck(new TextVocabulary(file));
-        deck.draw();
+    @ValueSource(strings = {"", "kissa", "koira"})
+    public void testCheckReturnsTrueIfInputMatchesBack(String back) {
+        Card card = new Card("", back);
 
-        boolean answerIsCorrect = deck.getDrawnCard().check(back);
+        boolean answerIsCorrect = card.check(back);
 
         Assertions.assertTrue(answerIsCorrect);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"", "cat", "koira"})
-    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) throws IOException {
-        Deck deck = new Deck(new TextVocabulary("cat.txt"));
-        deck.draw();
+    public void testCheckReturnsFalseIfInputDoesNotMatchBack(String input) {
+        Card card = new Card("cat", "kissa");
 
-        boolean answerIsCorrect = deck.getDrawnCard().check(input);
+        boolean answerIsCorrect = card.check(input);
 
         Assertions.assertFalse(answerIsCorrect);
     }
