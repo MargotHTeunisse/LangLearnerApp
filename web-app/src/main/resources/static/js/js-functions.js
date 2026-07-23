@@ -11,6 +11,8 @@ async function submitAnswer() {
         translation.removeChild(answer);
         translation.textContent += answer.value;
 
+        document.getElementById("word").style.borderColor = "green";
+
         await changeButtonToDraw();
     }
     else {
@@ -61,6 +63,8 @@ async function load() {
 
     if (answerIsVisible) {
         form.textContent = "";
+
+        document.getElementById("word").style.borderColor = "red";
 
         await changeButtonToDraw();
     }
