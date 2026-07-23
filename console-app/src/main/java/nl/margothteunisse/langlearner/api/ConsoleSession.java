@@ -2,8 +2,9 @@ package nl.margothteunisse.langlearner.api;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
+import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -18,7 +19,7 @@ public class ConsoleSession implements CommandLineRunner {
         this.deck = deck;
     }
 
-    public void run(String[] args) {
+    public void run(String @NonNull [] args) throws CardFlippedException {
         Scanner scn = new Scanner(System.in);
         while (deck.draw()) {
             Card card = deck.getDrawnCard();

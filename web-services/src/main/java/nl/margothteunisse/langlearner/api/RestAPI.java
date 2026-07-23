@@ -2,9 +2,12 @@ package nl.margothteunisse.langlearner.api;
 
 import jakarta.servlet.http.HttpSession;
 import nl.margothteunisse.langlearner.model.Deck;
+import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,14 +35,19 @@ public class RestAPI implements ApplicationContextAware {
     }
 
     @PostMapping("/submit")
-    public Boolean submitAnswer(@RequestParam String answer) {
+    public ResponseEntity<Boolean> submitAnswer(@RequestParam String answer) {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
-        boolean answerIsCorrect = deck.getDrawnCard().check(answer);
-        return answerIsCorrect;
+        boolean answerIsCorrect;
+        try {
+            answerIsCorrect = deck.getDrawnCard().check(answer);
+            return ResponseEntity.ok().body(answerIsCorrect);
+        } catch (CardFlippedException e) {
+            return ResponseEntity.badRequest().body(false);
+        }
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 }

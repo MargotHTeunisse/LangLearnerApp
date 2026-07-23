@@ -2,6 +2,7 @@ package model;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
+import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import nl.margothteunisse.langlearner.model.vocabularies.TextVocabulary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,7 +33,7 @@ public class TextVocabularyTest {
 
     @ParameterizedTest
     @CsvSource({"0, kissa", "1, koira", "2, lintu", "3, karhu"})
-    public void testCardBackAtIndexIsCorrect(int index, String back) {
+    public void testCardBackAtIndexIsCorrect(int index, String back) throws CardFlippedException {
         IVocabulary vocabulary = new TextVocabulary("wordlist.txt");
 
         Card card = vocabulary.getCardByID(index);
