@@ -1,8 +1,10 @@
 package nl.margothteunisse.langlearner.api;
 
 import jakarta.servlet.http.HttpSession;
+import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
+import nl.margothteunisse.langlearner.view.DeckView;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -16,33 +18,36 @@ public class RestAPI implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
-    @PatchMapping("/draw-next-card")
-    public Boolean drawNextCard() {
+    @GetMapping("/fetch-deck")
+    public DeckView fetchDeck() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
-        return deck.draw();
+
+        Card card = deck.getDrawnCard();
+        return new DeckView(card.read(), false, card.getFlipped());
     }
 
-    @PatchMapping("/show-answer")
-    public Boolean showAnswer() {
+    @PostMapping("/draw-next-card")
+    public DeckView drawNextCard(HttpSession session) {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
-        return deck.getDrawnCard().flip();
+
+        boolean deckIsDepleted = !deck.draw();
+
+        if (deckIsDepleted) {
+            session.invalidate();
+        }
+
+        Card card = deck.getDrawnCard();
+        return new DeckView(card.read(), deckIsDepleted, card.getFlipped());
     }
 
-    @PostMapping("/close")
-    public void closeSession(HttpSession session) {
-        session.invalidate();
-    }
-
-    @GetMapping("/fetch-word")
-    public String fetchWord() {
+    @PostMapping("/show-answer")
+    public DeckView showAnswer() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
-        return deck.getDrawnCard().read();
-    }
 
-    @GetMapping("/fetch-answer-visibility")
-    public Boolean fetchAnswerVisibility() {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
-        return deck.getDrawnCard().getFlipped();
+        Card card = deck.getDrawnCard();
+        card.flip();
+
+        return new DeckView(card.read(), false, card.getFlipped());
     }
 
     @PostMapping("/submit")

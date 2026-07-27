@@ -5,7 +5,11 @@
     <title>LangLearner</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="css/stylesheet.css">
-    <script src="js/js-functions.js" async></script>
+    <script src="js/draw-next.js" async></script>
+    <script src="js/change-button-to-draw.js"></script>
+    <script src="js/show-answer.js" async></script>
+    <script src="js/submit-answer.js" async></script>
+    <script src="js/load.js" async></script>
 </head>
 <body>
 <div>
@@ -20,14 +24,6 @@
 
 <script>
     onload = () => {load();}
-
-    let form = document.getElementById("translation");
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        submitAnswer();
-    });
 </script>
 </body>
 </html>
