@@ -2,10 +2,10 @@ async function submitAnswer() {
     let feedback = document.getElementById("feedback");
     let answer = document.getElementById("answer");
 
-    let answerIsCorrect = await fetch("/session/submit?answer="+answer.value, {method: "POST"})
+    let response = await fetch("/api/submit?answer="+answer.value)
         .then(response => response.json());
 
-    if (answerIsCorrect) {
+    if (response.answerIsCorrect) {
         feedback.textContent = "Correct!";
         let translation = document.getElementById("translation");
         translation.removeChild(answer);

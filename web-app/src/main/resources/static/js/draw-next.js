@@ -1,8 +1,7 @@
 async function drawNext() {
-    const deckView = await fetch("/session/draw-next-card", {method: "POST"})
-        .then(response => response.json());
+    let response = await fetch("/api/draw-next-card", {method: "POST"});
 
-    if (deckView.deckIsDepleted) {
+    if (response.deckIsDepleted) {
         window.location.replace("endcard.html");
     }
     else {
