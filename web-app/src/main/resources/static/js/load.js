@@ -1,8 +1,8 @@
 async function load() {
-    const deckView = await fetch("/session/fetch-deck").then(response => response.json());
+    const cardView = await fetch("/api/drawn-card").then(response => response.json());
 
     let wordToTranslate = document.getElementById("word");
-    wordToTranslate.textContent = deckView.visibleWord;
+    wordToTranslate.textContent = cardView.visibleWord;
 
     let form = document.getElementById("translation");
 
@@ -12,7 +12,7 @@ async function load() {
         submitAnswer();
     });
 
-    if (deckView.answerIsVisible) {
+    if (cardView.answerIsVisible) {
         form.textContent = "";
 
         document.getElementById("word").style.borderColor = "red";
