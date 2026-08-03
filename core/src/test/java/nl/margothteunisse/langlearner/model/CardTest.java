@@ -1,6 +1,5 @@
-package model;
+package nl.margothteunisse.langlearner.model;
 
-import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

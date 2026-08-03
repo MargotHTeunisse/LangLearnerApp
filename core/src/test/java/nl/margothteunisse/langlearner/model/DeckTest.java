@@ -1,8 +1,6 @@
-package model;
+package nl.margothteunisse.langlearner.model;
 
-import nl.margothteunisse.langlearner.model.Card;
-import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.model.IVocabulary;
+import nl.margothteunisse.langlearner.model.vocabularies.EmptyVocabulary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,18 +47,6 @@ public class DeckTest {
         Card card = deck.getDrawnCard();
 
         Assertions.assertEquals(inputCard, card);
-    }
-}
-
-class EmptyVocabulary implements IVocabulary {
-    @Override
-    public Card getCardByID(int cardID) {
-        return null;
-    }
-
-    @Override
-    public List<Integer> getAllCardIDs() {
-        return List.of();
     }
 }
 

@@ -1,9 +1,8 @@
-package model;
+package nl.margothteunisse.langlearner.model.vocabularies;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
-import nl.margothteunisse.langlearner.model.vocabularies.TextVocabulary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
