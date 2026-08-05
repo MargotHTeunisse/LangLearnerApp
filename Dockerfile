@@ -4,7 +4,7 @@ COPY /pom.xml .
 COPY console-app/pom.xml ./console-app/pom.xml
 COPY core/pom.xml ./core/pom.xml
 COPY web-services/pom.xml ./web-services/pom.xml
-COPY web-app/pom.xml ./web-app/pom.xml
+COPY web-services/src/pom.xml ./web-app/pom.xml
 
 RUN mvn dependency:go-offline -B
 

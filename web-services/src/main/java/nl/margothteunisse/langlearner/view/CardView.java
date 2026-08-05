@@ -2,10 +2,15 @@ package nl.margothteunisse.langlearner.view;
 
 public class CardView {
     public final String visibleWord;
-    public final boolean answerIsVisible;
+    public final Boolean answerIsCorrect;
 
-    public CardView(String visibleWord, boolean answerIsVisible) {
+    public CardView(String visibleWord) {
         this.visibleWord = visibleWord;
-        this.answerIsVisible = answerIsVisible;
+        answerIsCorrect = null;
+    }
+
+    public CardView(String visibleWord, boolean answerIsCorrect) {
+        this.visibleWord = visibleWord;
+        this.answerIsCorrect = answerIsCorrect;
     }
 }
