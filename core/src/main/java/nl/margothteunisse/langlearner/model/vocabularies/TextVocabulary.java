@@ -3,6 +3,8 @@ package nl.margothteunisse.langlearner.model.vocabularies;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Profile("text")
 public class TextVocabulary implements IVocabulary {
     private final String[][] words;
 
