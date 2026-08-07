@@ -1,10 +1,11 @@
 package nl.margothteunisse.langlearner.api;
 
 import jakarta.servlet.http.HttpSession;
+import nl.margothteunisse.langlearner.dto.DeckDTO;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
-import nl.margothteunisse.langlearner.view.CardView;
+import nl.margothteunisse.langlearner.dto.CardDTO;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -25,53 +26,44 @@ public class WebAPI implements ApplicationContextAware {
 
     @GetMapping("/drawn-card")
     @ResponseBody
-    public CardView drawnCard() {
+    public CardDTO drawnCard() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
 
         Card card = deck.getDrawnCard();
-        return new CardView(card.read(), card.getFlipped());
+        return new CardDTO(card.read(), card.getFlipped());
     }
 
     @GetMapping("/submit")
     @ResponseBody
-    public ResponseEntity<Map<String, Boolean>> submitAnswer(@RequestParam String answer) {
+    public CardDTO submitAnswer(@RequestParam String answer) throws CardFlippedException {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
 
-        try {
-            boolean answerIsCorrect = deck.getDrawnCard().check(answer);
-            return ResponseEntity.ok().body(Map.of("answerIsCorrect", answerIsCorrect));
-        } catch (CardFlippedException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Cannot submit answer if answer is visible."
-            );
-        }
+        Card card = deck.getDrawnCard();
+        return new CardDTO(card.read(), card.check(answer), card.getFlipped());
     }
 
     @PostMapping("/draw-next-card")
     @ResponseBody
-    public Map<String, Boolean> drawNextCard(HttpSession session) {
+    public DeckDTO drawNextCard(HttpSession session) {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
 
-        if (deck.draw()) {
-            return Map.of("deckIsDepleted", false);
-        }
-        else {
+        boolean deckIsDepleted = !deck.draw();
+        if (deckIsDepleted) {
             session.invalidate();
-            return Map.of("deckIsDepleted", true);
         }
 
-
+        return new DeckDTO(deck.getDrawnCard().read(), deckIsDepleted);
     }
 
     @PostMapping("/show-answer")
     @ResponseBody
-    public CardView showAnswer() {
+    public CardDTO showAnswer() {
         Deck deck = (Deck) applicationContext.getBean("userDeck");
 
         Card card = deck.getDrawnCard();
         card.flip();
 
-        return new CardView(card.read(), card.getFlipped());
+        return new CardDTO(card.read(), card.getFlipped());
     }
 
     @Override
