@@ -49,8 +49,7 @@ public class WebAPI implements ApplicationContextAware {
 
         boolean deckIsDepleted = !deck.draw();
         if (deckIsDepleted) {
-            session.invalidate();
-        }
+            session.invalidate();        }
 
         return new DeckDTO(deck.getDrawnCard().read(), deckIsDepleted);
     }
