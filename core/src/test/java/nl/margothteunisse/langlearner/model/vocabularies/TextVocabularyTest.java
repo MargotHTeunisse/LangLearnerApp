@@ -13,7 +13,7 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, empty.txt", "1, cat.txt", "1, dog.txt", "4, wordlist.txt"})
     public void testNumberOfIndicesMatchesLines(int length, String filename){
-        IVocabulary vocabulary = new TextVocabulary(filename);
+        IVocabulary vocabulary = new InternalTextVocabulary(filename);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDs();
 
@@ -23,7 +23,7 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, cat", "1, dog", "2, bird", "3, bear"})
     public void testCardFrontAtIndexIsCorrect(int index, String front) {
-        IVocabulary vocabulary = new TextVocabulary("wordlist.txt");
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
 
         Card card = vocabulary.getCardByID(index);
 
@@ -33,7 +33,7 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, kissa", "1, koira", "2, lintu", "3, karhu"})
     public void testCardBackAtIndexIsCorrect(int index, String back) throws CardFlippedException {
-        IVocabulary vocabulary = new TextVocabulary("wordlist.txt");
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
 
         Card card = vocabulary.getCardByID(index);
 

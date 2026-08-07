@@ -3,6 +3,8 @@ package nl.margothteunisse.langlearner.model.vocabularies;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -12,8 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class TextVocabulary implements IVocabulary {
+public abstract class TextVocabulary implements IVocabulary {
     private final String[][] words;
 
     public TextVocabulary(@Value("${vocabulary.filename}") String filename)
@@ -28,14 +29,7 @@ public class TextVocabulary implements IVocabulary {
         }
     }
 
-    private static List<String> readFile(String filename) {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = classloader.getResourceAsStream(filename);
-        InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-        BufferedReader reader = new BufferedReader(streamReader);
-
-        return reader.lines().toList();
-    }
+    abstract List<String> readFile(String filename);
 
     public Card getCardByID(int wordID) {
         return new Card(words[wordID][0], words[wordID][1]);
