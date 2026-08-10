@@ -1,6 +1,7 @@
 package nl.margothteunisse.langlearner.model.vocabularies;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class InternalTextVocabulary extends TextVocabulary{
     private String sourceLanguage;
     private String targetLanguage;
 
-    public InternalTextVocabulary(String filename) throws IOException {
+    public InternalTextVocabulary(@Value("${vocabulary.filename}") String filename) throws IOException {
         super(filename);
     }
 
