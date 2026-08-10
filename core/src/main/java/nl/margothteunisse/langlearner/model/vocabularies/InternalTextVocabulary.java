@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -14,17 +15,32 @@ import java.util.List;
 @Profile("text")
 @Qualifier("internal")
 public class InternalTextVocabulary extends TextVocabulary{
-    public InternalTextVocabulary(String filename) {
+    private String sourceLanguage;
+    private String targetLanguage;
+
+    public InternalTextVocabulary(String filename) throws IOException {
         super(filename);
     }
 
     @Override
-    List<String> readFile(String filename) {
+    List<String> readFile(String filename) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classloader.getResourceAsStream(filename);
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
 
+        String[] languages = reader.readLine().split("\\s*,\\s*");
+        sourceLanguage = languages[0];
+        targetLanguage = languages[1];
         return reader.lines().toList();
+    }
+
+    @Override
+    public List<Integer> getAllCardIDsForLanguages(String sourceLanguage, String targetLanguage) {
+        if (sourceLanguage.equals(this.sourceLanguage) &&
+                targetLanguage.equals(this.targetLanguage)) {
+            return getAllCardIDs();
+        }
+        return List.of();
     }
 }
