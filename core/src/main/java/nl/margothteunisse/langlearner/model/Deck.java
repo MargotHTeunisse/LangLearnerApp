@@ -1,6 +1,7 @@
 package nl.margothteunisse.langlearner.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +17,13 @@ public class Deck {
     private String sourceLanguage;
     private String targetLanguage;
 
-    @Autowired
     public Deck(IVocabulary vocabulary) {
         this.vocabulary = vocabulary;
 
         cardsInDeck.addAll(vocabulary.getAllCardIDs());
     }
 
+    @Autowired
     public Deck(IVocabulary vocabulary, String sourceLanguage, String targetLanguage) {
         this.vocabulary = vocabulary;
         this.sourceLanguage = sourceLanguage;

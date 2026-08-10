@@ -20,6 +20,8 @@ public class ConsoleSession implements CommandLineRunner {
     }
 
     public void run(String @NonNull [] args) throws CardFlippedException {
+        System.out.println("Currently translating " + deck.getSourceLanguage()
+        + " -> " + deck.getTargetLanguage() + ".");
         Scanner scn = new Scanner(System.in);
         while (deck.draw()) {
             Card card = deck.getDrawnCard();
