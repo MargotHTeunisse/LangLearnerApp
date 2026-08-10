@@ -38,4 +38,9 @@ public class DatabaseVocabulary implements IVocabulary {
         String sql = "SELECT card_id FROM cards";
         return jdbc.queryForList(sql, Integer.class);
     }
+
+    @Override
+    public List<Integer> getAllCardIDsForLanguages(String sourceLanguage, String targetLanguage) {
+        return List.of();
+    }
 }
