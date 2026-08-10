@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class TextVocabulary implements IVocabulary {
     private final String[][] words;
 
-    public TextVocabulary(@Value("${vocabulary.filename}") String filename) throws IOException {
+    public TextVocabulary(String filename) throws IOException {
         List<String> lines = readFile(filename);
         words = new String[lines.size()][2];
         int wordIndex = 0;

@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class Deck {
     private String sourceLanguage;
     private String targetLanguage;
 
+    @Autowired
     public Deck(IVocabulary vocabulary) {
         this.vocabulary = vocabulary;
 
