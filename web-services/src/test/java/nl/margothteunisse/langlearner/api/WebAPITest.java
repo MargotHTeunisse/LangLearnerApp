@@ -1,5 +1,6 @@
 package nl.margothteunisse.langlearner.api;
 
+import nl.margothteunisse.langlearner.dto.DeckDTO;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.dto.CardDTO;
@@ -26,8 +27,8 @@ public class WebAPITest {
         }
 
         @Bean
-        public UserSession userSession() {
-            return new UserSession();
+        public UserSession userSession(Deck deck) {
+            return new UserSession(deck);
         }
     }
 
@@ -43,11 +44,11 @@ public class WebAPITest {
         when(deck.getDrawnCard())
                 .thenReturn(new Card(front, ""));
 
-        CardDTO cardView = api.drawnCard();
+        DeckDTO deckDTO = api.drawnCard();
 
         Assertions.assertEquals(
                 front,
-                cardView.visibleWord());
+                deckDTO.card().visibleWord());
     }
 
     @Test

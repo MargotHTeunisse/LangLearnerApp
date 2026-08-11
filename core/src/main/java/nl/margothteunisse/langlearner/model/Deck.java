@@ -24,7 +24,9 @@ public class Deck {
     }
 
     @Autowired
-    public Deck(IVocabulary vocabulary, String sourceLanguage, String targetLanguage) {
+    public Deck(IVocabulary vocabulary,
+                @Value("${deck.source-language}") String sourceLanguage,
+                @Value("${deck.target-language}") String targetLanguage) {
         this.vocabulary = vocabulary;
         this.sourceLanguage = sourceLanguage;
         this.targetLanguage = targetLanguage;

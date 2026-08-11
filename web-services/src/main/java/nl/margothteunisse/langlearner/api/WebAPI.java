@@ -22,11 +22,12 @@ public class WebAPI implements ApplicationContextAware {
 
     @GetMapping("/drawn-card")
     @ResponseBody
-    public CardDTO drawnCard() {
+    public DeckDTO drawnCard() {
         Deck deck = applicationContext.getBean(UserSession.class).getDeck();
 
         Card card = deck.getDrawnCard();
-        return new CardDTO(card.read(), card.getFlipped());
+        return new DeckDTO(new CardDTO(card.read(), card.getFlipped()),
+                deck.getSourceLanguage(), deck.getTargetLanguage(), false);
     }
 
     @GetMapping("/submit")
@@ -41,13 +42,18 @@ public class WebAPI implements ApplicationContextAware {
     @PostMapping("/draw-next-card")
     @ResponseBody
     public DeckDTO drawNextCard(HttpSession session) {
-        Deck deck = applicationContext.getBean(UserSession.class).getDeck();
+        UserSession userSession = applicationContext.getBean(UserSession.class);
+        Deck deck = userSession.getDeck();
 
         boolean deckIsDepleted = !deck.draw();
         if (deckIsDepleted) {
-            session.invalidate();        }
+            session.invalidate();
+        }
 
-        return new DeckDTO(deck.getDrawnCard().read(), deckIsDepleted);
+        deck = userSession.getDeck();
+
+        return new DeckDTO(deck.getDrawnCard().read(), deck.getSourceLanguage(), deck.getTargetLanguage(),
+                deckIsDepleted);
     }
 
     @PostMapping("/show-answer")
