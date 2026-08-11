@@ -1,6 +1,6 @@
 package nl.margothteunisse.langlearner.model;
 
-import nl.margothteunisse.langlearner.model.vocabularies.stubs.EmptyVocabulary;
+import nl.margothteunisse.langlearner.model.vocabularies.EmptyVocabulary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
