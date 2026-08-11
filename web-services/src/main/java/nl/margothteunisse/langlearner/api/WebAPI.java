@@ -6,17 +6,13 @@ import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import nl.margothteunisse.langlearner.dto.CardDTO;
+import nl.margothteunisse.langlearner.session.UserSession;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -27,7 +23,7 @@ public class WebAPI implements ApplicationContextAware {
     @GetMapping("/drawn-card")
     @ResponseBody
     public CardDTO drawnCard() {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        Deck deck = applicationContext.getBean(UserSession.class).getDeck();
 
         Card card = deck.getDrawnCard();
         return new CardDTO(card.read(), card.getFlipped());
@@ -36,7 +32,7 @@ public class WebAPI implements ApplicationContextAware {
     @GetMapping("/submit")
     @ResponseBody
     public CardDTO submitAnswer(@RequestParam String answer) throws CardFlippedException {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        Deck deck = applicationContext.getBean(UserSession.class).getDeck();
 
         Card card = deck.getDrawnCard();
         return new CardDTO(card.read(), card.check(answer), card.getFlipped());
@@ -45,7 +41,7 @@ public class WebAPI implements ApplicationContextAware {
     @PostMapping("/draw-next-card")
     @ResponseBody
     public DeckDTO drawNextCard(HttpSession session) {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        Deck deck = applicationContext.getBean(UserSession.class).getDeck();
 
         boolean deckIsDepleted = !deck.draw();
         if (deckIsDepleted) {
@@ -57,7 +53,7 @@ public class WebAPI implements ApplicationContextAware {
     @PostMapping("/show-answer")
     @ResponseBody
     public CardDTO showAnswer() {
-        Deck deck = (Deck) applicationContext.getBean("userDeck");
+        Deck deck = applicationContext.getBean(UserSession.class).getDeck();
 
         Card card = deck.getDrawnCard();
         card.flip();

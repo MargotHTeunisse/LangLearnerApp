@@ -1,10 +1,10 @@
 package nl.margothteunisse.langlearner.api;
 
-import nl.margothteunisse.langlearner.config.WebConfig;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
 import nl.margothteunisse.langlearner.dto.CardDTO;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
+import nl.margothteunisse.langlearner.session.UserSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,15 @@ public class WebAPITest {
         public WebAPI api() {
             return new WebAPI();
         }
+
+        @Bean
+        public UserSession userSession() {
+            return new UserSession();
+        }
     }
 
-    @MockitoBean("userDeck")
-    private Deck userDeck;
+    @MockitoBean
+    private Deck deck;
 
     @Autowired
     private WebAPI api;
@@ -35,7 +40,7 @@ public class WebAPITest {
     @Test
     public void testDrawnCardIsRead() {
         String front = "cat";
-        when(userDeck.getDrawnCard())
+        when(deck.getDrawnCard())
                 .thenReturn(new Card(front, ""));
 
         CardDTO cardView = api.drawnCard();
@@ -48,7 +53,7 @@ public class WebAPITest {
     @Test
     public void testAnswerIsCorrectIfMatchesBack() throws CardFlippedException {
         String back = "kissa";
-        when(userDeck.getDrawnCard())
+        when(deck.getDrawnCard())
                 .thenReturn(new Card("", "kissa"));
 
         boolean answerIsCorrect = api.submitAnswer(back).answerIsCorrect();
@@ -58,9 +63,9 @@ public class WebAPITest {
 
     @Test
     public void testDeckIsDepletedIfDrawReturnsFalse() {
-        when(userDeck.draw())
+        when(deck.draw())
                 .thenReturn(false);
-        when(userDeck.getDrawnCard())
+        when(deck.getDrawnCard())
                 .thenReturn(new Card("", ""));
         MockHttpSession session = new MockHttpSession();
 
@@ -71,9 +76,9 @@ public class WebAPITest {
 
     @Test
     public void testSessionIsInvalidatedIfDeckIsDepleted() {
-        when(userDeck.draw())
+        when(deck.draw())
                 .thenReturn(false);
-        when(userDeck.getDrawnCard())
+        when(deck.getDrawnCard())
                 .thenReturn(new Card("", ""));
         MockHttpSession session = new MockHttpSession();
 
