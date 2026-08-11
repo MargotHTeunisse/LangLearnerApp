@@ -8,8 +8,12 @@ import org.springframework.web.context.annotation.SessionScope;
 @Component
 @SessionScope
 public class UserSession {
-    @Autowired
     private Deck deck;
+
+    public UserSession(Deck deck) {
+        this.deck = deck;
+        this.deck.draw();
+    }
 
     public Deck getDeck() {
         return this.deck;

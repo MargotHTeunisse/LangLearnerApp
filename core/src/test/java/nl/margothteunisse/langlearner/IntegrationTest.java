@@ -13,29 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest(classes={Deck.class, InternalTextVocabulary.class, IntegrationTest.Config.class})
+@SpringBootTest(classes={Deck.class, InternalTextVocabulary.class})
 @ActiveProfiles(profiles="text")
 @TestPropertySource(locations="classpath:test.properties")
 public class IntegrationTest {
-    @Configuration
-    static class Config {
-        @Value("${deck.source-language}")
-        private String sourceLanguage;
-
-        @Value("${deck.target-language}")
-        private String targetLanguage;
-
-        @Bean
-        public String sourceLanguage() {
-            return this.sourceLanguage;
-        }
-
-        @Bean
-        public String targetLanguage() {
-            return this.targetLanguage;
-        }
-    }
-
     @Autowired
     ApplicationContext context;
 
