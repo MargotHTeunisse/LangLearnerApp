@@ -1,4 +1,4 @@
-package nl.margothteunisse.langlearner.model.vocabularies.stubs;
+package nl.margothteunisse.langlearner.model.vocabularies;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;

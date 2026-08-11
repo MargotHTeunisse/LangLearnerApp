@@ -1,4 +1,4 @@
-package nl.margothteunisse.langlearner.api;
+package nl.margothteunisse.langlearner.aspects;
 
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import org.springframework.http.ResponseEntity;

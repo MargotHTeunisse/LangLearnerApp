@@ -9,7 +9,7 @@ import org.springframework.web.context.annotation.SessionScope;
 public class WebConfig {
     @Bean
     @SessionScope
-    public Deck userDeck(Deck deck) {
+    public static Deck userDeck(Deck deck) {
         deck.draw();
         return deck;
     }
