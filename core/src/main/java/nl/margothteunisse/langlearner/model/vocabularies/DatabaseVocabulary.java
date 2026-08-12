@@ -38,4 +38,11 @@ public class DatabaseVocabulary implements IVocabulary {
         String sql = "SELECT card_id FROM cards";
         return jdbc.queryForList(sql, Integer.class);
     }
+
+    @Override
+    public List<Integer> getAllCardIDsForLanguages(String sourceLanguage, String targetLanguage) {
+        String sql = "SELECT c.card_id FROM cards c INNER JOIN decks d ON c.deck_id = d.deck_id" +
+                " WHERE d.first_language = ? AND d.second_language = ?";
+        return jdbc.queryForList(sql, Integer.class, sourceLanguage, targetLanguage);
+    }
 }
