@@ -42,6 +42,12 @@ public class InternalTextVocabulary extends TextVocabulary{
                 targetLanguage.equals(this.targetLanguage)) {
             return getAllCardIDs();
         }
+
+        if (sourceLanguage.equals(this.targetLanguage) &&
+        targetLanguage.equals(this.sourceLanguage)) {
+            return getAllFlippedCardIDs();
+        }
+
         return List.of();
     }
 }

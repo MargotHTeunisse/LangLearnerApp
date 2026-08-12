@@ -24,8 +24,21 @@ public abstract class TextVocabulary implements IVocabulary {
 
     abstract List<String> readFile(String filename) throws IOException;
 
+    @Override
     public Card getCardByID(int wordID) {
+        if (wordID >= words.length) {
+            return new Card(words[wordID-words.length][1], words[wordID-words.length][0]);
+        }
+
         return new Card(words[wordID][0], words[wordID][1]);
+    }
+
+    protected List<Integer> getAllFlippedCardIDs() {
+        List<Integer> cardIDs = new ArrayList<>();
+        for (int i = words.length; i < 2*words.length; i++) {
+            cardIDs.add(i);
+        }
+        return cardIDs;
     }
 
     @Override
