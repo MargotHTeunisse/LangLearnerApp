@@ -6,10 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
 
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+
 public class DeckTest {
+    @Mock
+    private IVocabulary vocabulary;
 
     @Test
     public void testCannotDrawFromEmptyDeck() {
@@ -22,7 +27,8 @@ public class DeckTest {
 
     @Test
     public void testCanDrawFromNonEmptyDeck() {
-        Deck deck = new Deck(new SingleCardNullVocabulary());
+        when(vocabulary.getAllCardIDs()).thenReturn(List.of(0));
+        Deck deck = new Deck(vocabulary);
 
         boolean canDraw = deck.draw();
 
@@ -31,7 +37,8 @@ public class DeckTest {
 
     @Test
     public void testCardIsRemovedAfterDrawing() {
-        Deck deck = new Deck(new SingleCardNullVocabulary());
+        when(vocabulary.getAllCardIDs()).thenReturn(List.of(0));
+        Deck deck = new Deck(vocabulary);
         deck.draw();
 
         boolean canDraw = deck.draw();
@@ -43,7 +50,9 @@ public class DeckTest {
     @CsvSource({"cat, kissa", "dog, koira"})
     public void testDrawnCardMatchesVocabulary(String front, String back){
         Card inputCard = new Card(front, back);
-        Deck deck = new Deck(new SingleCardVocabulary(inputCard));
+        when(vocabulary.getAllCardIDs()).thenReturn(List.of(0));
+        when(vocabulary.getCardByID(0)).thenReturn(inputCard);
+        Deck deck = new Deck(vocabulary);
 
         deck.draw();
         Card card = deck.getDrawnCard();
@@ -87,26 +96,6 @@ public class DeckTest {
         boolean canDraw = deck.draw();
 
         Assertions.assertTrue(canDraw);
-    }
-
-    private class SingleCardNullVocabulary extends EmptyVocabulary {
-        @Override
-        public List<Integer> getAllCardIDs() {
-            return List.of(0);
-        }
-    }
-
-    private class SingleCardVocabulary extends SingleCardNullVocabulary {
-        private final Card card;
-
-        SingleCardVocabulary(Card card) {
-            this.card = card;
-        }
-
-        @Override
-        public Card getCardByID(int cardID) {
-            return card;
-        }
     }
 
     private class EnglishToFinnishVocabulary extends EmptyVocabulary {
