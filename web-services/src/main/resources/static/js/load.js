@@ -1,8 +1,14 @@
 async function load() {
-    const cardView = await fetch("/api/drawn-card").then(response => response.json());
+    const deckJSON = await fetch("/api/drawn-card").then(response => response.json());
 
     let wordToTranslate = document.getElementById("word");
-    wordToTranslate.textContent = cardView.visibleWord;
+    wordToTranslate.textContent = deckJSON.card.visibleWord;
+
+    let sourceLanguage = document.getElementById("source");
+    sourceLanguage.textContent = deckJSON.sourceLanguage;
+
+    let targetLanguage = document.getElementById("target");
+    targetLanguage.textContent = deckJSON.targetLanguage;
 
     let form = document.getElementById("translation");
 
@@ -12,7 +18,7 @@ async function load() {
         submitAnswer();
     });
 
-    if (cardView.answerIsVisible) {
+    if (deckJSON.card.answerIsVisible) {
         form.textContent = "";
 
         document.getElementById("word").style.borderColor = "red";

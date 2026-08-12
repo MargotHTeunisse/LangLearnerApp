@@ -67,6 +67,18 @@ public class WebAPI implements ApplicationContextAware {
         return new CardDTO(card.read(), card.getFlipped());
     }
 
+    @PostMapping("/flip-translation-direction")
+    @ResponseBody
+    public DeckDTO flipTranslationDirection() {
+        UserSession userSession = applicationContext.getBean(UserSession.class);
+
+        userSession.flipTranslationDirection();
+
+        Deck deck = userSession.getDeck();
+        return new DeckDTO(deck.getDrawnCard().read(),
+                deck.getSourceLanguage(), deck.getTargetLanguage(), false);
+    }
+
     @Override
     public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;

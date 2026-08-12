@@ -61,4 +61,43 @@ public class TextVocabularyTest {
 
         Assertions.assertEquals(size, cardIDs.size());
     }
+
+    @Test
+    public void testCardsRetrievedForFlippedTranslationDirection() throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages("FI", "EN");
+
+        Assertions.assertEquals(4, cardIDs.size());
+    }
+
+    @Test
+    public void testFlippedCardsUseSecondSetOfIndices() throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages("FI", "EN");
+
+        Assertions.assertEquals(List.of(4, 5, 6, 7), cardIDs);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, kissa", "1, koira", "2, lintu", "3, karhu"})
+    public void testFlippedCardFrontAtIndexIsCorrect(int index, String front) throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        Card card = vocabulary.getCardByID(index+4);
+
+        Assertions.assertEquals(front, card.read());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, cat", "1, dog", "2, bird", "3, bear"})
+    public void testFlippedCardBackAtIndexIsCorrect(int index, String back)
+            throws IOException, CardFlippedException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        Card card = vocabulary.getCardByID(index+4);
+
+        Assertions.assertTrue(card.check(back));
+    }
 }
