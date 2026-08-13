@@ -1,5 +1,5 @@
 CREATE TABLE decks (
-    deck_id int NOT NULL AUTO_INCREMENT,
+    deck_id int NOT NULL,
     first_language varchar(50) NOT NULL,
     second_language varchar(50) NOT NULL,
     PRIMARY KEY(deck_id)

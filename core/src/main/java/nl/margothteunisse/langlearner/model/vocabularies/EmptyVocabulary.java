@@ -20,4 +20,14 @@ public class EmptyVocabulary implements IVocabulary {
     public List<Integer> getAllCardIDsForLanguages(String sourceLanguage, String targetLanguage) {
         return List.of();
     }
+
+    @Override
+    public List<String> getAllLanguages() {
+        return List.of();
+    }
+
+    @Override
+    public List<String> getTargetLanguagesForSource(String sourceLanguage) {
+        return List.of();
+    }
 }
