@@ -1,4 +1,7 @@
-# What have I landed on?
+# LangLearner
+
+[![Java CI with Maven](https://github.com/MargotHTeunisse/LangLearnerApp/actions/workflows/maven.yml/badge.svg)](https://github.com/MargotHTeunisse/LangLearnerApp/actions/workflows/maven.yml)
+[![Docker Image CI](https://github.com/MargotHTeunisse/LangLearnerApp/actions/workflows/docker-image.yml/badge.svg)](https://github.com/MargotHTeunisse/LangLearnerApp/actions/workflows/docker-image.yml)
 
 This is a project where I build a language learning app, called LangLearner, using Java with Spring Boot®. 
 
