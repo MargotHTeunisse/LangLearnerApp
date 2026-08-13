@@ -3,7 +3,7 @@ package nl.margothteunisse.langlearner.api;
 import nl.margothteunisse.langlearner.dto.DeckDTO;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.dto.CardDTO;
+import nl.margothteunisse.langlearner.model.IVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import nl.margothteunisse.langlearner.session.UserSession;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +31,9 @@ public class WebAPITest {
             return new UserSession(deck);
         }
     }
+
+    @MockitoBean
+    private IVocabulary vocabulary;
 
     @MockitoBean
     private Deck deck;
