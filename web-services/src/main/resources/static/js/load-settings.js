@@ -16,7 +16,7 @@ async function loadSettings() {
 
     sourceLanguageOptions.onchange = () => {
         const targetLanguageOptions = document.getElementById("selectedTargetLanguage");
-        targetLanguageOptions.length=1;
+        targetLanguageOptions.length=0;
 
         let choice = sourceLanguageOptions.value;
 
@@ -29,5 +29,8 @@ async function loadSettings() {
 
             targetLanguageOptions.appendChild(option);
         });
+
+        let button = document.getElementById("languageButton");
+        button.onclick= () => {changeLanguage()};
     }
 }
