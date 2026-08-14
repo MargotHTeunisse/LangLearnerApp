@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>core</module>
-        <module>web-app</module>
         <module>console-app</module>
         <module>web-services</module>
     </modules>
@@ -28,9 +27,8 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>6.0.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         

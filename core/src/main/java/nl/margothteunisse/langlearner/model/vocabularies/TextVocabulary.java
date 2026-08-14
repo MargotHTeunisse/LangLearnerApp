@@ -2,22 +2,15 @@ package nl.margothteunisse.langlearner.model.vocabularies;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
-public class TextVocabulary implements IVocabulary {
+public abstract class TextVocabulary implements IVocabulary {
     private final String[][] words;
 
-    public TextVocabulary(@Value("${vocabulary.filename}") String filename)
-             {
+    public TextVocabulary(String filename) throws IOException {
         List<String> lines = readFile(filename);
         words = new String[lines.size()][2];
         int wordIndex = 0;
@@ -28,17 +21,23 @@ public class TextVocabulary implements IVocabulary {
         }
     }
 
-    private static List<String> readFile(String filename) {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = classloader.getResourceAsStream(filename);
-        InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-        BufferedReader reader = new BufferedReader(streamReader);
+    abstract List<String> readFile(String filename) throws IOException;
 
-        return reader.lines().toList();
+    @Override
+    public Card getCardByID(int wordID) {
+        if (wordID >= words.length) {
+            return new Card(words[wordID-words.length][1], words[wordID-words.length][0]);
+        }
+
+        return new Card(words[wordID][0], words[wordID][1]);
     }
 
-    public Card getCardByID(int wordID) {
-        return new Card(words[wordID][0], words[wordID][1]);
+    protected List<Integer> getAllFlippedCardIDs() {
+        List<Integer> cardIDs = new ArrayList<>();
+        for (int i = words.length; i < 2*words.length; i++) {
+            cardIDs.add(i);
+        }
+        return cardIDs;
     }
 
     @Override
