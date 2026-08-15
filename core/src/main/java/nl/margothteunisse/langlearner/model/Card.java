@@ -25,7 +25,7 @@ public class Card {
         if (flipped) {
             throw new CardFlippedException("Cannot submit answer because answer is visible to user.");
         }
-        return input.equals(back);
+        return input.equalsIgnoreCase(back);
     }
 
     public boolean flip() {

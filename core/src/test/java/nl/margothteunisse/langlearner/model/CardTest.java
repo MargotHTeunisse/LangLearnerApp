@@ -37,6 +37,16 @@ public class CardTest {
         Assertions.assertFalse(answerIsCorrect);
     }
 
+    @ParameterizedTest
+    @ValueSource(strings={"Kissa", "KISSA", "kIsSA", "KiSSa"})
+    public void testCheckIsCaseInsensitive(String input) throws CardFlippedException {
+        Card card = new Card("", "kissa");
+
+        boolean answerIsCorrect = card.check(input);
+
+        Assertions.assertTrue(answerIsCorrect);
+    }
+
     @Test
     public void testCannotSubmitTranslationAfterFlipping() {
         Card card = new Card("", "");
