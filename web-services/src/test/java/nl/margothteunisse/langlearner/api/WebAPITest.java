@@ -3,7 +3,6 @@ package nl.margothteunisse.langlearner.api;
 import nl.margothteunisse.langlearner.dto.DeckDTO;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;
-import nl.margothteunisse.langlearner.dto.CardDTO;
 import nl.margothteunisse.langlearner.model.IVocabulary;
 import nl.margothteunisse.langlearner.model.exceptions.CardFlippedException;
 import nl.margothteunisse.langlearner.model.vocabularies.EmptyVocabulary;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
