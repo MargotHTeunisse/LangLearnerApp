@@ -36,3 +36,7 @@ build/
 .DS_Store
 
 .github/agents
+
+##Node.js files
+node_modules
+package-lock.json
