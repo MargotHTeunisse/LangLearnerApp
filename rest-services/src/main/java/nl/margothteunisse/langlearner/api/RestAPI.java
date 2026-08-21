@@ -35,6 +35,15 @@ public class RestAPI {
         return new CardDTO(card.read(), card.check(answer), false);
     }
 
+    @GetMapping("answer")
+    public CardDTO showAnswer(@RequestParam int id) {
+        Card card = vocabulary.getCardByID(id);
+
+        card.flip();
+
+        return new CardDTO(card.read(), true);
+    }
+
     @GetMapping("all-card-ids")
     public Map<String, List<Integer>> getAllCardIds() {
         return Map.ofEntries(entry("cardIDs", vocabulary.getAllCardIDs()));
