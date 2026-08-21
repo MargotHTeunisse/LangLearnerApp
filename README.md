@@ -26,6 +26,10 @@ The **console-app** module contains a minimal implementation of the functionalit
 
 The **web-services** module contains a (non-REST) web API, which can be used to call the functionalities in **core** remotely. It also contains HTML, CSS and JavaScript resources which are used to construct a simple frontend for the API.
 
+### rest-services
+
+The **rest-services** module is similar to **web-services**, but uses a slightly different architecture. In **web-services**, the domain logic is fully on the server side, and as a result the API is stateful. In **rest-services**, the deck logic is on the client side, and the API is stateless, as it is only responsible for fetching resources from the vocabulary.
+
 ## Deployment
 
 A web showcase of this application is available via Render at [langlearnerapp.onrender.com](http://langlearnerapp.onrender.com). This deployment is based on a Docker container which uses a fixed vocabulary.
