@@ -35,4 +35,8 @@ build/
 ### Mac OS ###
 .DS_Store
 
-.github/
+# Ignore Copilot files, but not workflows
+.github/agents
+
+##Node.js files
+node_modules
