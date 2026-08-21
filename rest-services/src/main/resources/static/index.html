@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LangLearner</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="./js/utilities.js" async></script>
+    <script>
+        if (sessionStorage.getItem("sourceLanguage") === null ||
+            sessionStorage.getItem("targetLanguage") === null) {
+            window.location = "settings.html";
+        }
+    </script>
+</head>
+<body>
+<script>
+
+</script>
+<a style="font-size:30px" href="settings.html">⚙️</a>
+<div class="center">
+    <div style="font-size:24px;">Translate<br><b id="source">##</b> → <b id="target">##</b></div>
+<div class="card" id="word">####</div>
+    <form id="translation" autocomplete="off">
+    </form>
+    <div id="feedback"><br></div>
+    <div style="position:relative;text-align:right">
+<input type="button" id = "drawButton" value="Show answer">
+    </div>
+</div>
+</body>
+<script type = "module">
+    import {UserDeck} from "./js/UserDeck.js";
+
+    onload = async () => {
+        let sourceLanguage = sessionStorage.getItem("sourceLanguage");
+        let targetLanguage = sessionStorage.getItem("targetLanguage")
+
+        let cardIDs = await fetch("all-card-ids-for-languages?"
+                + "source=" + sourceLanguage
+                + "&target=" + targetLanguage)
+                .then(response => response.json())
+                .then(response => response.cardIDs);
+
+        document.getElementById("source").textContent = sourceLanguage;
+        document.getElementById("target").textContent = targetLanguage;
+
+        let deck = new UserDeck(cardIDs);
+        await drawNext(deck);
+
+        let button = document.getElementById("drawButton");
+        button.onclick = async () => {
+                await showAnswer(deck);
+            };
+
+        let form = document.getElementById("translation");
+
+        form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                submitAnswer(deck);
+            });
+
+        loadInputField();
+    }
+</script>
+</html>

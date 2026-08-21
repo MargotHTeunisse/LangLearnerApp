@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LangLearner</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+<body>
+<a style="font-size:30px" href="settings.html">⚙️</a>
+<div class="center">
+<div>You have translated all words!</div>
+<button id="replayButton" onclick="location.href='index.html'">Play Again</button>
+</div>
+<script>
+    let replayButton = document.getElementById("replayButton");
+
+    document.addEventListener('keypress', (e) => {
+        if (e.key === "Enter") {
+            replayButton.click();
+        }
+    });
+</script>
+</body>
+</html>
