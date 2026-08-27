@@ -2,6 +2,8 @@ async function changeLanguage() {
     let sourceLanguage = document.getElementById("selectedSourceLanguage");
     let targetLanguage = document.getElementById("selectedTargetLanguage");
 
+    sessionStorage.clear();
+
     sessionStorage.setItem("sourceLanguage", sourceLanguage.value);
     sessionStorage.setItem("targetLanguage", targetLanguage.value);
 

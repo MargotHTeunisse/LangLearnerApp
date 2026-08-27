@@ -19,9 +19,12 @@
 <div id="app" class="center">
     <div style="font-size:24px;">Translate<br><b>{{source}}</b> → <b>{{target}}</b></div>
 
-<div class="card">{{card.visibleWord}}</div>
+<div class="card" :class="card.answerIsVisible ? 'incorrect' : (card.answerIsCorrect ? 'correct' : '')">
+    {{card.visibleWord}}
+</div>
 
-    <div v-if="card.answerIsCorrect === true">
+    <div v-if="card.answerIsVisible"><br></div>
+    <div v-else-if="card.answerIsCorrect === true">
     Your answer: {{answer}}
     </div>
     <div v-else>
@@ -38,10 +41,9 @@
     </div>
 
     <div style="position:relative;text-align:right">
-        <div v-if="card.answerIsVisible || card.answerIsCorrect">
-        <input type="button" @click="drawNext" value = "Draw next">
-        </div>
-        <button v-else>Show answer</button>
+        <button v-if="card.answerIsVisible || card.answerIsCorrect"
+                @click="drawNext">Draw next</button>
+        <button v-else @click="showAnswer">Show answer</button>
     </div>
 </div>
 </body>
