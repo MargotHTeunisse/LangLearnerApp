@@ -14,6 +14,7 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "flush-cache": "^1.0.1",
     "mocha": "^11.8.0"
   }
 }
