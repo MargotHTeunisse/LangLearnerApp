@@ -5,77 +5,50 @@
     <title>LangLearner</title>
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="css/stylesheet.css">
-    <script src="./js/utilities.js" async></script>
+    <script src="https://unpkg.com/vue@3"></script>
     <script>
         if (sessionStorage.getItem("sourceLanguage") === null ||
             sessionStorage.getItem("targetLanguage") === null) {
             window.location = "settings.html";
         }
     </script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
+
 <body>
-<script>
-
-</script>
+<div id="app">
+<header>
 <a style="font-size:30px" href="settings.html">⚙️</a>
+</header>
+<main>
+    <div style="font-size:24px;">Translate<br><b>{{source}}</b> → <b>{{target}}</b></div>
 
-<div class="center">
-    <div id="languages" style="font-size:24px;">
-        Translate<br><b>{{source}}</b> → <b>{{target}}</b>
+<div class="card" :class="card.answerIsVisible ? 'incorrect' : (card.answerIsCorrect ? 'correct' : '')">
+    {{card.visibleWord}}
+</div>
+
+    <div v-if="card.answerIsVisible"><br></div>
+    <div v-else-if="card.answerIsCorrect === true">
+    Your answer: {{answer}}
     </div>
-
-<div class="card" id="word">####</div>
-
-    <form id="translation" autocomplete="off">
+    <div v-else>
+        <form autocomplete="off" @submit.prevent="submitAnswer">
+            <span>Your answer: <input v-model="answer" ref="answer" autofocus="autofocus" type="text"></span>
     </form>
-    <div id="feedback"><br></div>
-    <div style="position:relative;text-align:right">
-<input type="button" id = "drawButton" value="Show answer">
     </div>
+
+    <div id="feedback">
+        <span v-if="card.answerIsCorrect === true">Correct!</span>
+        <span v-else-if="card.answerIsCorrect === false">That is incorrect.</span>
+        <span v-else><br></span>
+    </div>
+
+    <div style="position:relative;text-align:right">
+        <button v-if="card.answerIsVisible || card.answerIsCorrect"
+                @click="drawNext">Draw next</button>
+        <button v-else @click="showAnswer">Show answer</button>
+    </div>
+</main>
 </div>
 </body>
-<script type = "module">
-    import {UserDeck} from "./js/UserDeck.js";
-
-    const {createApp, ref} = Vue
-
-    const sourceLanguage = sessionStorage.getItem("sourceLanguage")
-    const targetLanguage = sessionStorage.getItem("targetLanguage")
-
-    createApp({
-        setup() {
-            const source = ref(sourceLanguage)
-            const target = ref(targetLanguage)
-
-            return ({source, target})
-        }
-    }).mount("#languages")
-
-    onload = async () => {
-        let cardIDs = await fetch("all-card-ids-for-languages?"
-                + "source=" + sourceLanguage
-                + "&target=" + targetLanguage)
-                .then(response => response.json())
-                .then(response => response.cardIDs);
-
-        let deck = new UserDeck(cardIDs);
-        await drawNext(deck);
-
-        let button = document.getElementById("drawButton");
-        button.onclick = async () => {
-                await showAnswer(deck);
-            };
-
-        let form = document.getElementById("translation");
-
-        form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                submitAnswer(deck);
-            });
-
-        loadInputField();
-    }
-</script>
+<script type="module" src="js/main.js"></script>
 </html>
