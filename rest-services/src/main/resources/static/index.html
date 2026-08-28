@@ -19,7 +19,7 @@
 <header>
 <a style="font-size:30px" href="settings.html">⚙️</a>
 </header>
-<main>
+<main v-cloak>
     <div style="font-size:24px;">Translate<br><b>{{source}}</b> → <b>{{target}}</b></div>
 
 <div class="card" :class="card.answerIsVisible ? 'incorrect' : (card.answerIsCorrect ? 'correct' : '')">
