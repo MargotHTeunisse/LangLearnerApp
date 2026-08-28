@@ -11,7 +11,7 @@ const app = createApp({
             drawnCardId: null,
 
             card: reactive({
-                visibleWord: null,
+                visibleWord: "####",
                 answerIsCorrect: null,
                 answerIsVisible: false
             }),
