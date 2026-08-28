@@ -15,8 +15,11 @@
 </head>
 
 <body>
+<div id="app">
+<header>
 <a style="font-size:30px" href="settings.html">⚙️</a>
-<div id="app" class="center">
+</header>
+<main>
     <div style="font-size:24px;">Translate<br><b>{{source}}</b> → <b>{{target}}</b></div>
 
 <div class="card" :class="card.answerIsVisible ? 'incorrect' : (card.answerIsCorrect ? 'correct' : '')">
@@ -29,8 +32,7 @@
     </div>
     <div v-else>
         <form autocomplete="off" @submit.prevent="submitAnswer">
-        <label for="answer">Your answer: </label>
-        <input v-model="answer" ref="answer" id="answer" autofocus="autofocus" type="text">
+            <span>Your answer: <input v-model="answer" ref="answer" autofocus="autofocus" type="text"></span>
     </form>
     </div>
 
@@ -45,6 +47,7 @@
                 @click="drawNext">Draw next</button>
         <button v-else @click="showAnswer">Show answer</button>
     </div>
+</main>
 </div>
 </body>
 <script type="module" src="js/main.js"></script>
