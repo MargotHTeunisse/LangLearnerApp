@@ -13,7 +13,7 @@
 <a v-if="deckChosen"
    style="font-size:30px" href="index.html" id = "backButton">❮</a>
     </header>
-<main>
+<main v-cloak>
     <h2>Choose a deck:</h2>
     <select @change="selectSource" v-model="sourceLanguage">
         <option :value="null" selected disabled hidden>Source</option>
