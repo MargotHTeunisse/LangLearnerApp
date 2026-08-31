@@ -1,6 +1,5 @@
 package nl.margothteunisse.langlearner.api;
 
-import jakarta.servlet.http.HttpSession;
 import nl.margothteunisse.langlearner.dto.DeckDTO;
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.Deck;

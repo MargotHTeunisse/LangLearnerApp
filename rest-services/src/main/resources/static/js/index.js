@@ -9,6 +9,7 @@ const app = createApp({
         }
 
         let card = {
+            id: null,
             visibleWord: "####",
             answerIsCorrect: null,
             answerIsVisible: false
@@ -17,6 +18,7 @@ const app = createApp({
         if (sessionStorage.getItem("card")) {
             let cardInStorage = JSON.parse(sessionStorage.getItem("card"))
 
+            card.id = cardInStorage.id
             card.visibleWord = cardInStorage.visibleWord
             card.answerIsCorrect = cardInStorage.answerIsCorrect
             card.answerIsVisible = cardInStorage.answerIsVisible
@@ -25,8 +27,6 @@ const app = createApp({
         return {
             source: sessionStorage.getItem("sourceLanguage"),
             target: sessionStorage.getItem("targetLanguage"),
-
-            drawnCardId: null,
 
             numberTranslated: ref(JSON.parse(sessionStorage.getItem("discards")).length),
             vocabularySize: 0,
@@ -42,8 +42,6 @@ const app = createApp({
     },
 
     async beforeMount() {
-        this.drawnCardId = sessionStorage.getItem('drawnCardID')
-
         let cardIDs = await fetch("all-card-ids-for-languages?"
             + "source=" + this.source + "&target=" + this.target)
             .then(response => response.json())
@@ -53,20 +51,14 @@ const app = createApp({
         let remaining = cardIDs.filter(x => !discards.includes(x))
         this.vocabularySize += discards.length + remaining.length
 
-        this.deck.value = new UserDeck(remaining)
-        if (this.drawnCardId === null) {
-            await this.drawNext()
-        }
-        else if (!sessionStorage.getItem("card")) {
-            let card = await fetch("card?id=" + this.drawnCardId)
-                    .then(response => response.json())
-
-            this.updateCard(card)
-        }
-
         let answer = sessionStorage.getItem("answer")
         if (answer !== null) {
             this.answer = answer
+        }
+
+        this.deck.value = new UserDeck(remaining)
+        if (this.card.id === null) {
+            await this.drawNext()
         }
     },
 
@@ -84,7 +76,7 @@ const app = createApp({
                     this.numberTranslated++
 
                     let discards = JSON.parse(sessionStorage.getItem("discards"))
-                    discards.push(this.drawnCardId)
+                    discards.push(this.card.id)
                     sessionStorage.setItem("discards", JSON.stringify(discards))
                 }
             }
@@ -98,16 +90,13 @@ const app = createApp({
             if (deck.draw(this.card.answerIsVisible)) {
                 this.deck.value = deck
 
-                this.drawnCardId = deck.getDrawnCardId()
-
-                let card = await fetch("card?id=" + this.drawnCardId)
+                let card = await fetch("card?id=" + deck.getDrawnCardId())
                     .then(response => response.json())
 
                 this.updateCard(card)
             }
             else {
                 sessionStorage.removeItem('discards')
-                sessionStorage.removeItem('drawnCardID')
                 sessionStorage.removeItem('card')
 
                 window.location.replace("endcard.html")
@@ -119,7 +108,7 @@ const app = createApp({
                 throw new Error("Cannot submit answer while answer is visible.")
             }
             else {
-                let card = await fetch("feedback?id=" + this.drawnCardId
+                let card = await fetch("feedback?id=" + this.card.id
                     + "&answer=" + this.answer)
                     .then(response => response.json())
 
@@ -130,13 +119,14 @@ const app = createApp({
         },
 
         async showAnswer() {
-            let card = await fetch("answer?id=" + this.drawnCardId)
+            let card = await fetch("answer?id=" + this.card.id)
                 .then(response => response.json())
 
             this.updateCard(card)
         },
 
         updateCard(card) {
+            this.card.id = card.id
             this.card.visibleWord = card.visibleWord
             this.card.answerIsCorrect = card.answerIsCorrect
             this.card.answerIsVisible = card.answerIsVisible
@@ -150,7 +140,6 @@ const app = createApp({
             }
 
             sessionStorage.setItem('card', JSON.stringify(card))
-            sessionStorage.setItem('drawnCardID', this.drawnCardId)
         }
     }
 })

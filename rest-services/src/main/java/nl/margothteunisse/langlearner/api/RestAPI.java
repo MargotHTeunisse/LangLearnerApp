@@ -24,7 +24,7 @@ public class RestAPI {
     public CardDTO getCardById(@RequestParam int id) {
         Card card = vocabulary.getCardByID(id);
 
-        return CardDTO.of(card);
+        return CardDTO.of(id, card);
     }
 
     @GetMapping("feedback")
@@ -32,7 +32,7 @@ public class RestAPI {
             throws CardFlippedException {
         Card card = vocabulary.getCardByID(id);
 
-        return new CardDTO(card.read(), card.check(answer), false);
+        return new CardDTO(id, card.read(), card.check(answer), false);
     }
 
     @GetMapping("answer")
@@ -41,7 +41,7 @@ public class RestAPI {
 
         card.flip();
 
-        return new CardDTO(card.read(), true);
+        return new CardDTO(id, card.read(), true);
     }
 
     @GetMapping("all-card-ids")
