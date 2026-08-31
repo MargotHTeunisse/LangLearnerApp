@@ -1,28 +1,36 @@
 import assert from "node:assert";
 import {UserDeck} from "../../main/resources/static/js/UserDeck.js"
 
-import flush from "flush-cache";
-
 describe("UserDeck", function () {
   describe("draw", function () {
     it("should return false if no cards left",function () {
         let deck = new UserDeck([]);
 
-        assert.equal(deck.draw(), false);
+        assert.equal(deck.draw(false), false);
     });
 
     it("should return true if any cards left",  function() {
         let deck = new UserDeck([0]);
 
-        assert.equal(deck.draw(), true);
+        assert.equal(deck.draw(false), true);
     });
 
-    it("should remove card", function() {
+    it("should remove card if card not put back", function() {
       let deck = new UserDeck([0])
+      deck.draw(false);
 
-      deck.draw();
+      let canDraw = deck.draw(false)
 
-      assert.equal(deck.draw(), false)
+      assert.equal(canDraw, false)
+    });
+
+    it("should not remove card if card is put back", function() {
+       let deck = new UserDeck([0]);
+       deck.draw(false);
+
+       let canDraw = deck.draw(true)
+
+       assert.equal(canDraw, true)
     });
   });
 
@@ -41,16 +49,35 @@ describe("UserDeck", function () {
               assert.notEqual(deck.getDrawnCardId(), null);
           });
 
-      it("is updated after drawing", async function() {
+      it("is updated after drawing", function() {
           let deck = new UserDeck([1, 2]);
-          deck.draw();
+          deck.draw(false);
           let firstCardId = deck.getDrawnCardId();
 
-          deck.draw();
+          deck.draw(true);
           let secondCardId = deck.getDrawnCardId();
 
           assert.notEqual(secondCardId, firstCardId);
       });
+
+      it("retrieves card which was put back", function() {
+          let deck = new UserDeck([1, 2]);
+          deck.draw(false);
+          let firstCardId = deck.getDrawnCardId();
+
+          deck.draw(true);
+          deck.draw(true);
+          let thirdCardId = deck.getDrawnCardId();
+
+          assert.equal(thirdCardId, firstCardId);
+      });
+
+      it("cannot put back if drawn card is null", function() {
+          let deck = new UserDeck([])
+
+         assert.throws(() => {deck.draw(true)},
+             {message:"Cannot put back drawn card if drawn card is null."})
+      })
   });
 
     describe("cache", function() {
@@ -62,7 +89,7 @@ describe("UserDeck", function () {
 
             assert.deepEqual(JSON.parse(sessionStorage.getItem('cardIDs')), [1, 2, 3])
 
-            flush()
+            sessionStorage.clear()
         })
 
         it("stores drawn card ID", function() {
@@ -73,7 +100,7 @@ describe("UserDeck", function () {
 
             assert.equal(sessionStorage.getItem('drawnCardID'), [0])
 
-            flush()
+            sessionStorage.clear()
         })
     })
 });

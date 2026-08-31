@@ -68,7 +68,7 @@ const app = createApp({
             sessionStorage.removeItem('answer')
 
             const deck = toRaw(this.deck).value
-            if (deck.draw()) {
+            if (deck.draw(this.card.answerIsVisible)) {
                 deck.cache()
                 this.deck.value = deck
 
