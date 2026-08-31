@@ -4,11 +4,19 @@ const {createApp, ref, reactive, toRaw} = Vue
 
 const app = createApp({
     data() {
+        let numberTranslated = (sessionStorage.getItem("numberTranslated"))
+        if (numberTranslated === null) {
+            numberTranslated = 0;
+        }
+
         return {
             source: sessionStorage.getItem("sourceLanguage"),
             target: sessionStorage.getItem("targetLanguage"),
 
             drawnCardId: null,
+
+            numberTranslated: ref(numberTranslated),
+            vocabularySize: parseInt(numberTranslated),
 
             card: reactive({
                 visibleWord: "####",
@@ -25,12 +33,12 @@ const app = createApp({
     },
 
     async beforeMount() {
-        let cardIDs = sessionStorage.getItem('cardIDs')
-
         let card = JSON.parse(sessionStorage.getItem('card'))
 
-        if (cardIDs !== null) {
-            this.deck.value = new UserDeck(JSON.parse(cardIDs))
+        if (sessionStorage.getItem('cardIDs')) {
+            let cardIDs = JSON.parse(sessionStorage.getItem('cardIDs'))
+
+            this.deck.value = new UserDeck(cardIDs)
             this.drawnCardId = sessionStorage.getItem('drawnCardID')
 
             if (card === null) {
@@ -44,13 +52,18 @@ const app = createApp({
             }
 
             this.updateCard(card)
+
+            this.vocabularySize += cardIDs.length + (this.answerIsCorrect === true? 0 : 1)
         }
         else {
-            this.deck.value = new UserDeck(await fetch("all-card-ids-for-languages?"
+            let cardIDs = await fetch("all-card-ids-for-languages?"
                 + "source=" + this.source + "&target=" + this.target)
                 .then(response => response.json())
                 .then(response => response.cardIDs)
-            )
+
+            this.vocabularySize += cardIDs.length;
+
+            this.deck.value = new UserDeck(cardIDs)
             await this.drawNext()
         }
     },
@@ -62,6 +75,15 @@ const app = createApp({
             }
         })
     },
+
+    watch: {
+        'card.answerIsCorrect' (newValue, oldValue) {
+                if (newValue === true && oldValue !== true) {
+                    this.numberTranslated++
+                    sessionStorage.setItem('numberTranslated', this.numberTranslated)
+                }
+            }
+        },
 
     methods: {
         async drawNext() {
@@ -83,6 +105,7 @@ const app = createApp({
                 sessionStorage.removeItem('cardIDs')
                 sessionStorage.removeItem('drawnCardID')
                 sessionStorage.removeItem('card')
+                sessionStorage.removeItem('numberTranslated')
 
                 window.location.replace("endcard.html")
             }
@@ -129,4 +152,5 @@ const app = createApp({
 })
 app.directive('beforeMount')
 app.directive('mounted')
+app.directive('watch')
 app.mount("#app")
