@@ -4,9 +4,22 @@ const {createApp, ref, reactive, toRaw} = Vue
 
 const app = createApp({
     data() {
-        let numberTranslated = (sessionStorage.getItem("numberTranslated"))
-        if (numberTranslated === null) {
-            numberTranslated = 0;
+        if (!sessionStorage.getItem("discards")) {
+            sessionStorage.setItem("discards", JSON.stringify([]))
+        }
+
+        let card = {
+            visibleWord: "####",
+            answerIsCorrect: null,
+            answerIsVisible: false
+        }
+
+        if (sessionStorage.getItem("card")) {
+            let cardInStorage = JSON.parse(sessionStorage.getItem("card"))
+
+            card.visibleWord = cardInStorage.visibleWord
+            card.answerIsCorrect = cardInStorage.answerIsCorrect
+            card.answerIsVisible = cardInStorage.answerIsVisible
         }
 
         return {
@@ -15,14 +28,10 @@ const app = createApp({
 
             drawnCardId: null,
 
-            numberTranslated: ref(numberTranslated),
-            vocabularySize: parseInt(numberTranslated),
+            numberTranslated: ref(JSON.parse(sessionStorage.getItem("discards")).length),
+            vocabularySize: 0,
 
-            card: reactive({
-                visibleWord: "####",
-                answerIsCorrect: null,
-                answerIsVisible: false
-            }),
+            card: reactive(card),
             deck: ref({
                 type: UserDeck,
                 value: null
@@ -33,38 +42,31 @@ const app = createApp({
     },
 
     async beforeMount() {
-        let card = JSON.parse(sessionStorage.getItem('card'))
+        this.drawnCardId = sessionStorage.getItem('drawnCardID')
 
-        if (sessionStorage.getItem('cardIDs')) {
-            let cardIDs = JSON.parse(sessionStorage.getItem('cardIDs'))
+        let cardIDs = await fetch("all-card-ids-for-languages?"
+            + "source=" + this.source + "&target=" + this.target)
+            .then(response => response.json())
+            .then(response => response.cardIDs)
 
-            this.deck.value = new UserDeck(cardIDs)
-            this.drawnCardId = sessionStorage.getItem('drawnCardID')
+        let discards = JSON.parse(sessionStorage.getItem("discards"))
+        let remaining = cardIDs.filter(x => !discards.includes(x))
+        this.vocabularySize += discards.length + remaining.length
 
-            if (card === null) {
-                card = await fetch("card?id=" + this.drawnCardId)
+        this.deck.value = new UserDeck(remaining)
+        if (this.drawnCardId === null) {
+            await this.drawNext()
+        }
+        else if (!sessionStorage.getItem("card")) {
+            let card = await fetch("card?id=" + this.drawnCardId)
                     .then(response => response.json())
-            }
-
-            let answer = sessionStorage.getItem("answer")
-            if (answer !== null) {
-                this.answer = answer
-            }
 
             this.updateCard(card)
-
-            this.vocabularySize += cardIDs.length + (this.answerIsCorrect === true? 0 : 1)
         }
-        else {
-            let cardIDs = await fetch("all-card-ids-for-languages?"
-                + "source=" + this.source + "&target=" + this.target)
-                .then(response => response.json())
-                .then(response => response.cardIDs)
 
-            this.vocabularySize += cardIDs.length;
-
-            this.deck.value = new UserDeck(cardIDs)
-            await this.drawNext()
+        let answer = sessionStorage.getItem("answer")
+        if (answer !== null) {
+            this.answer = answer
         }
     },
 
@@ -80,7 +82,10 @@ const app = createApp({
         'card.answerIsCorrect' (newValue, oldValue) {
                 if (newValue === true && oldValue !== true) {
                     this.numberTranslated++
-                    sessionStorage.setItem('numberTranslated', this.numberTranslated)
+
+                    let discards = JSON.parse(sessionStorage.getItem("discards"))
+                    discards.push(this.drawnCardId)
+                    sessionStorage.setItem("discards", JSON.stringify(discards))
                 }
             }
         },
@@ -91,7 +96,6 @@ const app = createApp({
 
             const deck = toRaw(this.deck).value
             if (deck.draw(this.card.answerIsVisible)) {
-                deck.cache()
                 this.deck.value = deck
 
                 this.drawnCardId = deck.getDrawnCardId()
@@ -102,10 +106,9 @@ const app = createApp({
                 this.updateCard(card)
             }
             else {
-                sessionStorage.removeItem('cardIDs')
+                sessionStorage.removeItem('discards')
                 sessionStorage.removeItem('drawnCardID')
                 sessionStorage.removeItem('card')
-                sessionStorage.removeItem('numberTranslated')
 
                 window.location.replace("endcard.html")
             }
@@ -147,6 +150,7 @@ const app = createApp({
             }
 
             sessionStorage.setItem('card', JSON.stringify(card))
+            sessionStorage.setItem('drawnCardID', this.drawnCardId)
         }
     }
 })
