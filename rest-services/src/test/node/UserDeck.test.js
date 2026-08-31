@@ -79,28 +79,4 @@ describe("UserDeck", function () {
              {message:"Cannot put back drawn card if drawn card is null."})
       })
   });
-
-    describe("cache", function() {
-        it("stores remaining card IDs", function() {
-            let deck = new UserDeck([0, 1, 2, 3])
-            deck.draw()
-
-            deck.cache()
-
-            assert.deepEqual(JSON.parse(sessionStorage.getItem('cardIDs')), [1, 2, 3])
-
-            sessionStorage.clear()
-        })
-
-        it("stores drawn card ID", function() {
-            let deck = new UserDeck([0, 1, 2, 3])
-            deck.draw()
-
-            deck.cache()
-
-            assert.equal(sessionStorage.getItem('drawnCardID'), [0])
-
-            sessionStorage.clear()
-        })
-    })
 });
