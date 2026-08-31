@@ -22,6 +22,7 @@
 <main v-cloak>
     <div style="font-size:24px;">Translate<br><b>{{source}}</b> → <b>{{target}}</b></div>
 
+    <div>
 <div class="card" :class="card.answerIsVisible ? 'incorrect' : (card.answerIsCorrect ? 'correct' : '')">
     {{card.visibleWord}}
 </div>
@@ -47,8 +48,10 @@
                 @click="drawNext">Draw next</button>
         <button v-else @click="showAnswer">Show answer</button>
     </div>
+        <div>
+            ({{numberTranslated}}/{{vocabularySize}})</div>
 </main>
 </div>
 </body>
-<script type="module" src="js/main.js"></script>
+<script type="module" src="js/index.js"></script>
 </html>
