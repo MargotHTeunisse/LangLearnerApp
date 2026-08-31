@@ -28,10 +28,5 @@ export class UserDeck {
         this.getDrawnCardId = function() {
             return this.#drawnCardID;
         }
-
-        this.cache = function() {
-            sessionStorage.setItem('drawnCardID', this.#drawnCardID)
-            sessionStorage.setItem('cardIDs', JSON.stringify(this.#cardIDs))
-        }
     }
 }
