@@ -1,4 +1,5 @@
 import assert from "node:assert";
+import * as sinon from "sinon";
 import {UserDeck} from "../../main/resources/static/js/UserDeck.js"
 
 describe("UserDeck", function () {
@@ -32,6 +33,26 @@ describe("UserDeck", function () {
 
        assert.equal(canDraw, true)
     });
+
+    it("should shuffle deck once if card is put back", function() {
+        let deck = new UserDeck([0])
+        let shuffleSpy = sinon.spy(deck, "shuffle");
+        deck.draw(false);
+
+        deck.draw(true);
+
+        assert.equal(shuffleSpy.calledOnce, true);
+    });
+
+    it("should not shuffle deck if card not put back", function() {
+        let deck = new UserDeck([0])
+        let shuffleSpy = sinon.spy(deck, "shuffle");
+        deck.draw(false);
+
+        deck.draw(false);
+
+        assert.equal(shuffleSpy.notCalled, true);
+    })
   });
 
   describe("drawn card id", function() {
