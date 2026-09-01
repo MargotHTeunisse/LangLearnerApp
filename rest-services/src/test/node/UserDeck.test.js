@@ -4,55 +4,63 @@ import {UserDeck} from "../../main/resources/static/js/UserDeck.js"
 
 describe("UserDeck", function () {
   describe("draw", function () {
-    it("should return false if no cards left",function () {
+    it("returns false if no cards left",function () {
         let deck = new UserDeck([]);
 
-        assert.equal(deck.draw(false), false);
+        assert.equal(deck.draw(), false);
     });
 
-    it("should return true if any cards left",  function() {
+    it("returns true if any cards left",  function() {
         let deck = new UserDeck([0]);
 
-        assert.equal(deck.draw(false), true);
+        assert.equal(deck.draw(), true);
     });
 
-    it("should remove card if card not put back", function() {
+    it("removes card", function() {
       let deck = new UserDeck([0])
       deck.draw(false);
 
-      let canDraw = deck.draw(false)
-
-      assert.equal(canDraw, false)
+      assert.equal(deck.draw(), false)
     });
 
-    it("should not remove card if card is put back", function() {
-       let deck = new UserDeck([0]);
-       deck.draw(false);
-
-       let canDraw = deck.draw(true)
-
-       assert.equal(canDraw, true)
-    });
-
-    it("should shuffle deck once if card is put back", function() {
+    it("does not shuffle deck", function() {
         let deck = new UserDeck([0])
         let shuffleSpy = sinon.spy(deck, "shuffle");
-        deck.draw(false);
-
-        deck.draw(true);
-
-        assert.equal(shuffleSpy.calledOnce, true);
-    });
-
-    it("should not shuffle deck if card not put back", function() {
-        let deck = new UserDeck([0])
-        let shuffleSpy = sinon.spy(deck, "shuffle");
-        deck.draw(false);
-
-        deck.draw(false);
+        deck.draw();
 
         assert.equal(shuffleSpy.notCalled, true);
     })
+  });
+
+  describe("put back", function() {
+      it("shuffles deck once", function() {
+          let deck = new UserDeck([0])
+          let shuffleSpy = sinon.spy(deck, "shuffle");
+          deck.draw();
+
+          deck.putBack();
+
+          assert.equal(shuffleSpy.calledOnce, true);
+      });
+
+      it("raises error if drawn card id is null", function() {
+          let deck = new UserDeck([])
+
+          assert.throws(() => {deck.putBack()},
+              {message:"Cannot put back drawn card if drawn card is null."})
+      });
+
+      it("puts drawn card back in deck", function() {
+          let deck = new UserDeck([1]);
+          deck.draw();
+          let firstCardId = deck.getDrawnCardId();
+          deck.putBack()
+
+          deck.draw();
+          let secondCardId = deck.getDrawnCardId();
+
+          assert.equal(secondCardId, firstCardId);
+      });
   });
 
   describe("drawn card id", function() {
@@ -70,34 +78,24 @@ describe("UserDeck", function () {
               assert.notEqual(deck.getDrawnCardId(), null);
           });
 
+      it("is null after card is put back", function() {
+          let deck = new UserDeck([0])
+
+          deck.draw();
+          deck.putBack();
+
+          assert.equal(deck.getDrawnCardId(), null);
+      });
+
       it("is updated after drawing", function() {
           let deck = new UserDeck([1, 2]);
-          deck.draw(false);
+          deck.draw();
           let firstCardId = deck.getDrawnCardId();
 
-          deck.draw(true);
+          deck.draw();
           let secondCardId = deck.getDrawnCardId();
 
-          assert.notEqual(secondCardId, firstCardId);
+          assert.notEqual(secondCardId, firstCardId)
       });
-
-      it("retrieves card which was put back", function() {
-          let deck = new UserDeck([1, 2]);
-          deck.draw(false);
-          let firstCardId = deck.getDrawnCardId();
-
-          deck.draw(true);
-          deck.draw(true);
-          let thirdCardId = deck.getDrawnCardId();
-
-          assert.equal(thirdCardId, firstCardId);
-      });
-
-      it("cannot put back if drawn card is null", function() {
-          let deck = new UserDeck([])
-
-         assert.throws(() => {deck.draw(true)},
-             {message:"Cannot put back drawn card if drawn card is null."})
-      })
   });
 });

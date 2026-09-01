@@ -90,7 +90,7 @@ const app = createApp({
             sessionStorage.removeItem('answer')
 
             const deck = toRaw(this.deck).value
-            if (deck.draw(this.card.answerIsVisible)) {
+            if (deck.draw()) {
                 this.deck.value = deck
 
                 let card = await fetch("card?id=" + deck.getDrawnCardId())
@@ -124,6 +124,10 @@ const app = createApp({
         async showAnswer() {
             let card = await fetch("answer?id=" + this.card.id)
                 .then(response => response.json())
+
+            const deck = toRaw(this.deck).value
+            deck.putBack()
+            this.deck.value = deck
 
             this.updateCard(card)
         },

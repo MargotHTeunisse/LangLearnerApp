@@ -5,16 +5,7 @@ export class UserDeck {
     constructor(cardIDs) {
         this.#cardIDs = cardIDs;
 
-        this.draw = function(putBack) {
-            if (putBack) {
-                if (this.#drawnCardID === null) {
-                throw new Error("Cannot put back drawn card if drawn card is null.")
-                }
-
-                this.#cardIDs.push(this.#drawnCardID)
-                this.shuffle();
-            }
-
+        this.draw = function() {
             if (this.#cardIDs.length === 0) {
                 return false;
             }
@@ -23,6 +14,16 @@ export class UserDeck {
             this.#cardIDs.shift();
 
             return true;
+        }
+
+        this.putBack = function() {
+            if (this.#drawnCardID === null) {
+                throw new Error("Cannot put back drawn card if drawn card is null.")
+            }
+
+            this.#cardIDs.push(this.#drawnCardID)
+            this.#drawnCardID = null;
+            this.shuffle();
         }
 
         this.shuffle = function() {
