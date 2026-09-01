@@ -15,5 +15,8 @@
   "type": "module",
   "devDependencies": {
     "mocha": "^11.8.0"
+  },
+  "dependencies": {
+    "sinon": "^22.1.0"
   }
 }

@@ -56,7 +56,10 @@ const app = createApp({
             this.answer = answer
         }
 
-        this.deck.value = new UserDeck(remaining)
+        let deck = new UserDeck(remaining)
+        deck.shuffle()
+
+        this.deck.value = deck
         if (this.card.id === null) {
             await this.drawNext()
         }
