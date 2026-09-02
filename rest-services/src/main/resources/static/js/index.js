@@ -56,7 +56,7 @@ const app = createApp({
             this.answer = answer
         }
 
-        let deck = new UserDeck(remaining)
+        let deck = new UserDeck(remaining, this.card.id)
         deck.shuffle()
 
         this.deck.value = deck
@@ -88,6 +88,7 @@ const app = createApp({
     methods: {
         async drawNext() {
             sessionStorage.removeItem('answer')
+            sessionStorage.removeItem('card')
 
             const deck = toRaw(this.deck).value
             if (deck.draw()) {
@@ -130,6 +131,7 @@ const app = createApp({
             this.deck.value = deck
 
             this.updateCard(card)
+            sessionStorage.setItem('card', JSON.stringify(card))
         },
 
         updateCard(card) {
@@ -141,7 +143,9 @@ const app = createApp({
             if (this.card.answerIsCorrect === null) {
                 this.answer = ""
                 this.$nextTick(() => {
-                        this.$refs.answer.focus()
+                        if (this.$refs.answer !== null) {
+                            this.$refs.answer.focus()
+                        }
                     }
                 )
             }
@@ -152,5 +156,4 @@ const app = createApp({
 })
 app.directive('beforeMount')
 app.directive('mounted')
-app.directive('watch')
 app.mount("#app")

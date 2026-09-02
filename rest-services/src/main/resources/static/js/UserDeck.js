@@ -1,8 +1,9 @@
 export class UserDeck {
     #cardIDs;
-    #drawnCardID = null;
+    #drawnCardID;
 
-    constructor(cardIDs) {
+    constructor(cardIDs, drawnCardID=null) {
+        this.#drawnCardID = drawnCardID;
         this.#cardIDs = cardIDs;
 
         this.draw = function() {
