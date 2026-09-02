@@ -9,13 +9,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, empty.txt", "1, cat.txt", "1, dog.txt", "4, wordlist.txt"})
     public void testNumberOfIndicesMatchesLines(int length, String filename) throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary(filename);
+        URL url = TextVocabulary.class.getResource("/"+filename);
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDs();
 
@@ -25,7 +27,8 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, cat", "1, dog", "2, bird", "3, bear"})
     public void testCardFrontAtIndexIsCorrect(int index, String front) throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         Card card = vocabulary.getCardByID(index);
 
@@ -35,7 +38,8 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, kissa", "1, koira", "2, lintu", "3, karhu"})
     public void testCardBackAtIndexIsCorrect(int index, String back) throws CardFlippedException, IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         Card card = vocabulary.getCardByID(index);
 
@@ -44,7 +48,8 @@ public class TextVocabularyTest {
 
     @Test
     public void testNoCardsRetrievedIfLanguageIsUnavailable() throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages("", "");
 
@@ -55,7 +60,8 @@ public class TextVocabularyTest {
     @CsvSource({"wordlist.txt, EN, FI, 4", "cat.txt, EN, FI, 1", "gato.txt, ES, FR, 1"})
     public void testCardsRetrievedIfLanguageMatches(String filename, String sourceLanguage,
                                                     String targetLanguage, int size) throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary(filename);
+        URL url = TextVocabulary.class.getResource("/"+filename);
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages(sourceLanguage, targetLanguage);
 
@@ -64,7 +70,8 @@ public class TextVocabularyTest {
 
     @Test
     public void testCardsRetrievedForFlippedTranslationDirection() throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages("FI", "EN");
 
@@ -73,7 +80,8 @@ public class TextVocabularyTest {
 
     @Test
     public void testFlippedCardsUseSecondSetOfIndices() throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         List<Integer> cardIDs = vocabulary.getAllCardIDsForLanguages("FI", "EN");
 
@@ -83,7 +91,8 @@ public class TextVocabularyTest {
     @ParameterizedTest
     @CsvSource({"0, kissa", "1, koira", "2, lintu", "3, karhu"})
     public void testFlippedCardFrontAtIndexIsCorrect(int index, String front) throws IOException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         Card card = vocabulary.getCardByID(index+4);
 
@@ -94,7 +103,8 @@ public class TextVocabularyTest {
     @CsvSource({"0, cat", "1, dog", "2, bird", "3, bear"})
     public void testFlippedCardBackAtIndexIsCorrect(int index, String back)
             throws IOException, CardFlippedException {
-        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+        URL url = TextVocabulary.class.getResource("/wordlist.txt");
+        IVocabulary vocabulary = new TextVocabulary(url);
 
         Card card = vocabulary.getCardByID(index+4);
 
