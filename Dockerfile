@@ -15,5 +15,8 @@ RUN mvn -pl core,web-services -am package -DskipTests
 FROM eclipse-temurin:26-jre
 WORKDIR /app
 COPY --from=build /app/web-services/target/*.jar langlearner-web-showcase.jar
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=prod", "langlearner-web-showcase.jar"]
+
+ARG spring_profile
+ENV SPRING_PROFILE $spring_profile
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=${SPRING_PROFILE}", "langlearner-web-showcase.jar"]
 EXPOSE 8080
