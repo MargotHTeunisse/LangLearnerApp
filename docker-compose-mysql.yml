@@ -1,0 +1,31 @@
+services:
+  db:
+    build:
+      context: core/src/main/resources
+      dockerfile: ./Dockerfile-mysql
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_DATABASE=wordlist
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - data_sql:/var/lib/mysql
+  app:
+    image: langlearner-web-showcase
+    build:
+      dockerfile: ./Dockerfile
+    expose:
+      - "8080"
+    ports:
+      - "8888:8080"
+    links:
+      - db
+    environment:
+      - SPRING_PROFILE=mysql
+      - MYSQL_HOST=db
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+volumes:
+  data_sql:
