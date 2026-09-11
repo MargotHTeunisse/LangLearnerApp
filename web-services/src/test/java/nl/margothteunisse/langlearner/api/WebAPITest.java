@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -95,28 +94,6 @@ public class WebAPITest {
         boolean deckIsDepleted = api.drawNextCard().deckIsDepleted();
 
         Assertions.assertTrue(deckIsDepleted);
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings={"EN", "FR", "ES", "FI"})
-    public void testSourceLanguageIsTargetAfterFlippingDirection(String sourceLanguage) {
-        when(deck.getSourceLanguage()).thenReturn(sourceLanguage);
-        when(deck.getTargetLanguage()).thenReturn("");
-
-        DeckDTO deckDTO = api.flipTranslationDirection();
-
-        Assertions.assertEquals(sourceLanguage, deckDTO.targetLanguage());
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings={"EN", "FR", "ES", "FI"})
-    public void testTargetLanguageIsSourceAfterFlippingDirection(String targetLanguage) {
-        when(deck.getSourceLanguage()).thenReturn("");
-        when(deck.getTargetLanguage()).thenReturn(targetLanguage);
-
-        DeckDTO deckDTO = api.flipTranslationDirection();
-
-        Assertions.assertEquals(targetLanguage, deckDTO.sourceLanguage());
     }
 
     @ParameterizedTest

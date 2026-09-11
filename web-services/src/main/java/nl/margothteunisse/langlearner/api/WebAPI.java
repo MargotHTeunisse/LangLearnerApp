@@ -71,18 +71,6 @@ public class WebAPI implements ApplicationContextAware {
         return new CardDTO(card.read(), card.getFlipped());
     }
 
-    @PostMapping("/flip-translation-direction")
-    @ResponseBody
-    public DeckDTO flipTranslationDirection() {
-        UserSession userSession = applicationContext.getBean(UserSession.class);
-
-        userSession.flipTranslationDirection();
-
-        Deck deck = userSession.getDeck();
-        return new DeckDTO(CardDTO.of(deck.getDrawnCard()),
-                deck.getSourceLanguage(), deck.getTargetLanguage(), false);
-    }
-
     @PostMapping("/change-language")
     @ResponseBody
     public DeckDTO changeLanguage(@RequestParam String sourceLanguage,

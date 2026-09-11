@@ -28,11 +28,6 @@ public class UserSession {
         deck.draw();
     }
 
-    public void flipTranslationDirection() {
-        deck = new Deck(vocabulary, deck.getTargetLanguage(), deck.getSourceLanguage());
-        deck.draw();
-    }
-
     public void changeLanguage(String sourceLanguage, String targetLanguage) {
         deck = new Deck(vocabulary, sourceLanguage, targetLanguage);
         deck.draw();
