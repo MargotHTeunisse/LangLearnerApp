@@ -2,7 +2,6 @@ package nl.margothteunisse.langlearner.model.vocabularies;
 
 import nl.margothteunisse.langlearner.model.Card;
 import nl.margothteunisse.langlearner.model.IVocabulary;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="css/stylesheet.css">
+    <script src="js/change-language.js" async></script>
+    <script src="js/load-settings.js" async></script>
+</head>
+<body>
+<a style="font-size:30px" href="index.html">❮</a>
+<div class="center">
+    <h2>Language settings</h2>
+    <select id="selectedSourceLanguage">
+        <option value="" selected disabled hidden>Source</option>
+    </select>
+    →
+    <select id="selectedTargetLanguage">
+        <option value="" selected disabled hidden>Target</option>
+    </select>
+    <br>
+    <br>
+    <input id = "languageButton" type="button" value = "Apply" onclick=changeLanguage()>
+</div>
+<script>
+    onload = () => {loadSettings()};
+</script>
+</body>
+</html>

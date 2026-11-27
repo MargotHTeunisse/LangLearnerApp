@@ -23,8 +23,18 @@ public class UserSession {
         return this.deck;
     }
 
+    public void refreshDeck() {
+        deck = new Deck(vocabulary, deck.getSourceLanguage(), deck.getTargetLanguage());
+        deck.draw();
+    }
+
     public void flipTranslationDirection() {
         deck = new Deck(vocabulary, deck.getTargetLanguage(), deck.getSourceLanguage());
+        deck.draw();
+    }
+
+    public void changeLanguage(String sourceLanguage, String targetLanguage) {
+        deck = new Deck(vocabulary, sourceLanguage, targetLanguage);
         deck.draw();
     }
 }

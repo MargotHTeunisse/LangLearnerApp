@@ -12,6 +12,7 @@ async function submitAnswer() {
         translation.textContent += answer.value;
 
         document.getElementById("word").style.borderColor = "green";
+        document.getElementById("word").style.backgroundColor = "lightgreen";
 
         changeButtonToDraw();
     }

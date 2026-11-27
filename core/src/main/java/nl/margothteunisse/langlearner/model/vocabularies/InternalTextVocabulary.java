@@ -50,4 +50,14 @@ public class InternalTextVocabulary extends TextVocabulary{
 
         return List.of();
     }
+
+    @Override
+    public List<String> getAllLanguages() {
+        return List.of();
+    }
+
+    @Override
+    public List<String> getTargetLanguagesForSource(String sourceLanguage) {
+        return List.of();
+    }
 }
