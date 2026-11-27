@@ -53,11 +53,19 @@ public class InternalTextVocabulary extends TextVocabulary{
 
     @Override
     public List<String> getAllLanguages() {
-        return List.of();
+
+        return List.of(sourceLanguage, targetLanguage);
     }
 
     @Override
     public List<String> getTargetLanguagesForSource(String sourceLanguage) {
+        if (sourceLanguage.equals(this.sourceLanguage)) {
+            return List.of(this.targetLanguage);
+        }
+
+        if (sourceLanguage.equals(this.targetLanguage)) {
+            return List.of(this.sourceLanguage);
+        }
         return List.of();
     }
 }

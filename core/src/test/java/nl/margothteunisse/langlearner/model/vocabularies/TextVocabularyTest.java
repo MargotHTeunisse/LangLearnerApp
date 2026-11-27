@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TextVocabularyTest {
     @ParameterizedTest
@@ -100,4 +103,38 @@ public class TextVocabularyTest {
 
         Assertions.assertTrue(card.check(back));
     }
+
+    @Test
+    public void testCanRetrieveAllLanguages() throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        Set<String> allLanguages = new HashSet<>(vocabulary.getAllLanguages());
+
+        Assertions.assertEquals(Set.of("EN", "FI"), allLanguages);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"EN, FI", "FI, EN"})
+    public void testCanRetrieveTargetLanguageForSource(String source, String target)
+            throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        Set<String> languagesForSource = new HashSet<>(
+                vocabulary.getTargetLanguagesForSource(source));
+
+        Assertions.assertEquals(Set.of(target), languagesForSource);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings={"FR", "ES", "JP"})
+    public void testRetrievesNoTargetLanguageForNonexistentSource(String source)
+            throws IOException {
+        IVocabulary vocabulary = new InternalTextVocabulary("wordlist.txt");
+
+        Set<String> languagesForSource = new HashSet<>(
+                vocabulary.getTargetLanguagesForSource(source));
+
+        Assertions.assertEquals(Set.of(), languagesForSource);
+    }
+
 }
